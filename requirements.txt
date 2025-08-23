@@ -1,0 +1,8 @@
+langchain>=0.2.11
+langchain-core>=0.2.35
+langchain-community>=0.2.10
+langchain-ollama>=0.1.0
+langchain-chroma>=0.1.2
+chromadb>=0.5.3
+tiktoken>=0.7.0
+pypdf>=4.2.0
