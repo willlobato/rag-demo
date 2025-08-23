@@ -168,6 +168,7 @@ db/
 *.sqlite3
 .DS_Store
 Thumbs.db
+.specstory/
 
 # Logs
 *.log
