@@ -18,33 +18,60 @@ Um projeto de demonstração completo de RAG usando Ollama para modelos locais, 
 
 ---
 
+## ⚡ **TESTE RÁPIDO (2 minutos)**
+
+```bash
+# 1. Indexar dados de exemplo
+python scripts/run_ingest.py
+
+# 2. Fazer primeira pergunta
+python scripts/run_query.py "Qual é a latência média das APIs?"
+
+# 3. Ver como dados foram divididos
+python scripts/analyze_chunks.py
+
+# 4. Buscar por tecnologia específica
+python scripts/search_docs.py "Kubernetes" 3
+```
+
+---
+
 ## 🚀 **INÍCIO RÁPIDO**
 
-### 📖 **Para Iniciantes**
+### 📖 **Para Iniciantes (com exemplo prático)**
 ```
-1️⃣ docs/guides/TUTORIAL_RAG.md → Fundamentos
-2️⃣ docs/reference/GLOSSARIO_CONCEITOS.md → Vocabulário
-3️⃣ docs/guides/EXEMPLOS_USO_SCRIPTS.md → Prática
+1️⃣ docs/guides/TUTORIAL_RAG.md → Fundamentos de RAG
+2️⃣ python scripts/run_ingest.py → Indexar dados de exemplo
+3️⃣ python scripts/run_query.py "Como funciona o cache distribuído?" → Primeira consulta
+4️⃣ docs/guides/EXEMPLOS_USO_SCRIPTS.md → Explorar mais funcionalidades
 ```
 
-### 🔬 **Para Pesquisadores**  
+### 🔬 **Para Desenvolvedores (análise técnica)**  
 ```
-1️⃣ docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md → Análise técnica
-2️⃣ docs/organization/CLASSIFICACAO_SCRIPTS.md → Complexidade
-3️⃣ scripts/experiment.py → Experimentação
+1️⃣ python scripts/analyze_chunks.py --full → Ver como dados foram processados
+2️⃣ python scripts/show_vectors.py "microserviços" true → Entender embeddings
+3️⃣ docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md → Análise avançada
+4️⃣ scripts/experiment.py → Experimentação com parâmetros
 ```
 
 ---
 
 ## 📋 **Sobre o Projeto**
 
-Este projeto implementa um sistema RAG completo que:
+Este projeto implementa um sistema RAG completo que permite **consultar documentação técnica de forma inteligente**. Usando o exemplo prático incluído (`data/sistema_completo.txt`), você pode fazer perguntas sobre arquitetura de sistemas e receber respostas contextualizadas.
 
-- **Processa documentos** (TXT, MD, PDF) e os divide em chunks
+**O sistema:**
+- **Processa documentos** (TXT, MD, PDF) e os divide em chunks otimizados
 - **Gera embeddings** usando o modelo `nomic-embed-text` do Ollama
 - **Armazena vetores** no ChromaDB com persistência automática
 - **Responde perguntas** usando o modelo `llama3` com contexto recuperado
 - **Fornece ferramentas educacionais** para aprendizagem estruturada de RAG
+
+**Exemplo de uso com nossos dados:**
+- 📊 "Qual é a latência média das APIs do sistema?"
+- 🏗️ "Como foi implementada a arquitetura de microserviços?"
+- 🔒 "Quais tecnologias foram usadas para segurança?"
+- 📈 "Quantos usuários simultâneos o sistema suporta?"
 
 ## 🏗️ **Arquitetura do Sistema**
 
@@ -54,7 +81,26 @@ Este projeto implementa um sistema RAG completo que:
 ├── 📂 scripts/           # Scripts de automação (12 total)
 ├── 📚 docs/              # Documentação educacional completa
 ├── 📊 data/              # Documentos de exemplo
-└── 🗄️ db/               # Base de dados vetorial (ChromaDB)
+│   └── sistema_completo.txt    # � Exemplo prático: Sistema com microserviços
+└── �🗄️ db/               # Base de dados vetorial (ChromaDB)
+```
+
+### 📊 **Exemplo Prático Incluído**
+
+O arquivo `data/sistema_completo.txt` contém documentação real sobre um sistema moderno com:
+
+- **🚀 Performance:** 10k usuários simultâneos, 150ms de latência  
+- **🏗️ Arquitetura:** Microserviços com Spring Boot, Docker, Kubernetes
+- **🗄️ Dados:** PostgreSQL, Redis cache, replicação master-slave
+- **📊 Monitoramento:** Prometheus, Grafana, alertas no Slack
+- **🔒 Segurança:** JWT, OAuth2, rate limiting, ELK Stack
+- **⚙️ DevOps:** Jenkins CI/CD, deployment automatizado
+
+**Perguntas que você pode fazer:**
+- "Como foi otimizado o processo de login?"
+- "Qual a arquitetura de microserviços utilizada?" 
+- "Quais são as métricas de performance do sistema?"
+- "Como funciona o sistema de monitoramento?"
 ```
 
 ### 📦 **Core Package (rag_demo/)**
@@ -126,42 +172,66 @@ O plugin Python do VSCode normalmente ativa o ambiente automaticamente quando o 
 # Verificar se Ollama está rodando
 curl http://localhost:11434/api/tags
 
-# Testar o sistema RAG
-python -m rag_demo.rag "O que é RAG?"
+# Testar o sistema RAG com dados reais
+python -m rag_demo.rag "Qual tecnologia é usada para cache distribuído?"
+
+# Resultado esperado: resposta sobre Infinispan e Redis
 ```
 
 ---
 
 ## 🚀 **Uso Básico**
 
-### **Ingestão de Documentos**
+### **1. Ingestão dos Documentos**
 ```bash
-# Adicionar documentos à pasta data/
-python -m rag_demo.ingest
-
-# Ou usar script dedicado
+# Indexar o documento de exemplo (sistema_completo.txt já está em data/)
 python scripts/run_ingest.py
-```
 
-### **Consultas RAG**
-```bash
-# Consulta simples
-python -m rag_demo.rag "Explique embeddings vetoriais"
-
-# Usando script com opções avançadas
-python scripts/run_query.py "Como funciona a recuperação vetorial?"
-```
-
-### **Análise e Métricas**
-```bash
-# Listar documentos
+# Verificar o que foi indexado
 python scripts/list_docs.py
+```
 
-# Analisar chunks
-python scripts/analyze_chunks.py
+### **2. Consultas RAG - Exemplos Práticos**
+```bash
+# Perguntas sobre performance do sistema
+python scripts/run_query.py "Qual é a latência média das APIs?"
+python scripts/run_query.py "Quantos usuários simultâneos o sistema suporta?"
 
-# Avaliar performance
-python scripts/evaluate_rag.py
+# Perguntas sobre arquitetura  
+python scripts/run_query.py "Como foi implementada a arquitetura de microserviços?"
+python scripts/run_query.py "Quais tecnologias são usadas para cache?"
+
+# Perguntas sobre monitoramento
+python scripts/run_query.py "Como funciona o sistema de monitoramento?"
+python scripts/run_query.py "Onde são enviados os alertas críticos?"
+
+# Perguntas sobre segurança
+python scripts/run_query.py "Quais mecanismos de segurança foram implementados?"
+python scripts/run_query.py "Como é feita a autenticação dos usuários?"
+```
+
+### **3. Análise dos Dados Indexados**
+```bash
+# Ver como o documento foi dividido em chunks
+python scripts/analyze_chunks.py --full
+
+# Buscar tópicos específicos sem usar LLM
+python scripts/search_docs.py "PostgreSQL" 3
+python scripts/search_docs.py "Kubernetes" 5
+
+# Analisar embeddings e vetores
+python scripts/show_vectors.py "microserviços" true
+
+# 🛡️ RAG com proteções contra alucinações
+python scripts/rag_with_guardrails.py "Como funciona o cache distribuído?" strict
+
+# 📊 Otimizar threshold automaticamente para seus dados
+python scripts/threshold_optimizer.py
+
+# 📖 Ver guia completo de uso de guardrails
+# docs/guides/USO_GUARDRAILS.md - Exemplos práticos testados
+# docs/reference/THRESHOLD_OPTIMIZER_GUIDE.md - Guia completo do threshold optimizer
+# docs/reference/RELATORIO_TESTES_GUARDRAILS.md - Validação com dados reais
 ```
 
 ---
@@ -198,28 +268,73 @@ cfg = config.get_config()
 # Ingestão
 docs = ingest.load_and_process_documents()
 
-# Consulta RAG
-response = rag.query("Sua pergunta aqui")
+# Consulta RAG com exemplo prático
+response = rag.query("Como foi otimizado o processo de login?")
+print(response)  # Resposta: "O processo de login foi otimizado usando cache distribuído..."
+```
+
+### **Experimentação com Diferentes Configurações**
+```bash
+# Testar chunks menores para mais precisão
+export CHUNK_SIZE=300
+export CHUNK_OVERLAP=60
+python scripts/run_ingest.py
+python scripts/run_query.py "Qual é o uptime do serviço?"
+
+# Testar recuperação de mais chunks
+export RETRIEVAL_K=6
+python scripts/run_query.py "Explique toda a stack de tecnologias usadas"
+
+# Analisar impacto das mudanças
+python scripts/analyze_chunks.py --full
 ```
 
 ### **Extensibilidade**
-- Adicione novos loaders em `utils.py`
+- Adicione novos documentos técnicos em `data/`
 - Configure novos modelos em `config.py`
-- Desenvolva métricas em `scripts/`
+- Desenvolva métricas específicas em `scripts/`
+- Experimente com diferentes tipos de documentação (APIs, manuais, etc.)
 
 ---
 
 ## 📈 **Performance e Métricas**
 
-### **Benchmarks Incluídos**
-- **Similarity Analysis:** Análise de similaridade entre chunks
-- **Retrieval Evaluation:** Avaliação da qualidade de recuperação
-- **Generation Metrics:** Métricas de qualidade de geração
+### **Análise do Exemplo Incluído**
+Com o documento `sistema_completo.txt`, você pode testar:
 
-### **Ferramentas de Análise**
-- `scripts/analyze_similarity.py` - Matriz de similaridade
-- `scripts/evaluate_rag.py` - Métricas completas
-- `scripts/experiment.py` - Framework experimental
+```bash
+# Análise de similaridade entre chunks sobre diferentes tecnologias
+python scripts/analyze_similarity.py
+
+# Avaliação da qualidade das respostas técnicas
+python scripts/evaluate_rag.py
+
+# Experimentação com diferentes parâmetros
+python scripts/experiment.py
+```
+
+### **Benchmarks Práticos**
+- **Similarity Analysis:** Compare chunks sobre "Spring Boot" vs "PostgreSQL"
+- **Retrieval Quality:** Teste perguntas sobre performance vs arquitetura
+- **Response Quality:** Avalie respostas sobre tópicos específicos (ex: segurança)
+
+### **Ferramentas de Análise Específicas**
+```bash
+# Matriz de similaridade focada em tecnologias
+python scripts/analyze_similarity.py
+
+# Métricas de recuperação para perguntas técnicas
+python scripts/analyze_retrieval.py  
+
+# Experimentos com diferentes tipos de consulta
+python scripts/experiment.py --topic "performance"
+```
+
+### **Casos de Teste Sugeridos**
+- 🔍 **Busca específica:** "Prometheus" vs "monitoramento"
+- 🏗️ **Arquitetura:** Perguntas sobre microserviços e containers
+- 📊 **Métricas:** Consultas sobre performance e uptime
+- 🔒 **Segurança:** Questões sobre JWT, OAuth2, rate limiting
 
 ---
 

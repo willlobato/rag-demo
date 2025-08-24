@@ -79,6 +79,13 @@
 5. **[🔴 evaluate_rag.py](scripts/evaluate_rag.py)** - Avaliação completa
 6. **[🧪 experiment.py](scripts/experiment.py)** - Experimentação científica
 
+#### **🛡️ Trilha Guardrails e Produção (3-5 horas)**
+1. **[🛡️ USO_GUARDRAILS.md](USO_GUARDRAILS.md)** - Guia prático de uso
+2. **[� THRESHOLD_OPTIMIZER_GUIDE.md](../reference/THRESHOLD_OPTIMIZER_GUIDE.md)** - Guia completo do optimizer
+3. **[�🛡️ rag_with_guardrails.py](scripts/rag_with_guardrails.py)** - RAG seguro
+4. **[📊 threshold_optimizer.py](scripts/threshold_optimizer.py)** - Otimização automática
+5. **[📚 GUARDRAILS_GUIDE.md](../reference/GUARDRAILS_GUIDE.md)** - Documentação técnica completa
+
 ### 🎯 **NAVEGAÇÃO POR PROBLEMA ESPECÍFICO**
 
 #### **Problema: "Resultados de busca irrelevantes"**

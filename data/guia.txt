@@ -1,3 +1,0 @@
-O processo de login do nosso aplicativo foi otimizado em 2025.
-Usamos cache distribuído com Infinispan e paralelismo nas chamadas de API.
-Essa abordagem reduziu o tempo médio de login de 4s para 1,2s.

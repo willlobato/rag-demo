@@ -24,6 +24,9 @@
 ### 🎓 Sistema Educacional
 - **[RESUMO_SISTEMA_EDUCACIONAL.md](RESUMO_SISTEMA_EDUCACIONAL.md)** - Visão geral do sistema educacional
 - **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Dicionário de termos técnicos
+- **[GUARDRAILS_GUIDE.md](../reference/GUARDRAILS_GUIDE.md)** - 🛡️ Guia completo de guardrails para sistemas RAG seguros
+- **[THRESHOLD_OPTIMIZER_GUIDE.md](../reference/THRESHOLD_OPTIMIZER_GUIDE.md)** - 📊 Guia completo do threshold optimizer
+- **[RELATORIO_TESTES_GUARDRAILS.md](../reference/RELATORIO_TESTES_GUARDRAILS.md)** - 📊 Relatório de validação com dados reais
 
 ### 🗺️ Navegação e Organização
 - **[GUIA_NAVEGACAO.md](../guides/GUIA_NAVEGACAO.md)** - Fluxos de navegação detalhados
@@ -104,6 +107,11 @@
 4. **[evaluate_rag.py](scripts/evaluate_rag.py)** - Avaliação completa
 5. **[experiment.py](scripts/experiment.py)** - Experimentação científica
 
+### 🛡️ **Fase 5: Sistemas Seguros e Produção** (2-4 horas)
+1. **[rag_with_guardrails.py](scripts/rag_with_guardrails.py)** - RAG com guardrails de segurança
+2. **[threshold_optimizer.py](scripts/threshold_optimizer.py)** - Otimização de thresholds
+3. **[GUARDRAILS_GUIDE.md](../reference/GUARDRAILS_GUIDE.md)** - Guia completo de guardrails
+
 ---
 
 ## 🎯 **OBJETIVOS DE APRENDIZAGEM POR NÍVEL**
@@ -122,12 +130,21 @@
 - [ ] Otimizar parâmetros básicos
 - [ ] Diagnosticar problemas comuns
 
-### 🔴 **Nível Avançado - Pesquisa e Inovação**
-- [ ] Conduzir avaliações científicas rigorosas
-- [ ] Implementar experimentos controlados
-- [ ] Aplicar estatística para validação
+### 🔴 **Nível Avançado - Pesquisa e Otimização**
+- [ ] Calcular métricas avançadas (ROUGE, BLEU, etc.)
+- [ ] Analisar distribuições de similaridade
+- [ ] Avaliar qualidade de retrieval sistematicamente  
+- [ ] Executar experimentos científicos reproduzíveis
 - [ ] Otimizar hiperparâmetros sistematicamente
 - [ ] Contribuir para pesquisa em RAG
+
+### 🛡️ **Nível Produção - Sistemas Seguros**
+- [ ] Implementar guardrails contra alucinações
+- [ ] Otimizar thresholds de similaridade
+- [ ] Configurar validação de entrada e saída
+- [ ] Monitorar qualidade em produção
+- [ ] Detectar e prevenir ataques de injection
+- [ ] Garantir rastreabilidade e auditoria
 
 ---
 
@@ -174,12 +191,14 @@ graph TD
 - **🔍 Busca e Recuperação:** [search_docs.py](scripts/search_docs.py) • [analyze_retrieval.py](scripts/analyze_retrieval.py)
 - **📈 Métricas e Avaliação:** [advanced_metrics.py](scripts/advanced_metrics.py) • [evaluate_rag.py](scripts/evaluate_rag.py)
 - **🧪 Experimentação:** [analyze_similarity.py](scripts/analyze_similarity.py) • [experiment.py](scripts/experiment.py)
+- **🛡️ Segurança e Produção:** [rag_with_guardrails.py](scripts/rag_with_guardrails.py) • [threshold_optimizer.py](scripts/threshold_optimizer.py)
 
 ### Por Objetivo de Pesquisa
 - **Otimização de Chunking:** [analyze_chunks.py](scripts/analyze_chunks.py) → [experiment.py](scripts/experiment.py)
 - **Qualidade de Embeddings:** [show_vectors.py](scripts/show_vectors.py) → [analyze_similarity.py](scripts/analyze_similarity.py)
 - **Performance de Retrieval:** [analyze_retrieval.py](scripts/analyze_retrieval.py) → [evaluate_rag.py](scripts/evaluate_rag.py)
 - **Validação Científica:** [advanced_metrics.py](scripts/advanced_metrics.py) → [evaluate_rag.py](scripts/evaluate_rag.py)
+- **Sistemas Seguros:** [threshold_optimizer.py](scripts/threshold_optimizer.py) → [rag_with_guardrails.py](scripts/rag_with_guardrails.py)
 
 ---
 
@@ -187,6 +206,7 @@ graph TD
 
 ### Documentação de Referência
 - **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Para termos técnicos
+- **[GUARDRAILS_GUIDE.md](../reference/GUARDRAILS_GUIDE.md)** - Para implementação de sistemas seguros
 - **[EXEMPLOS_USO_SCRIPTS.md](EXEMPLOS_USO_SCRIPTS.md)** - Para exemplos práticos
 - **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Para detalhes técnicos
 

@@ -13,7 +13,9 @@ Este tutorial fornece uma base teórica sólida para o sistema educacional RAG, 
 ### **📖 Fundamentos Teóricos**
 1. **[O que é RAG?](#o-que-é-rag)** - Conceitos fundamentais
 2. **[Arquitetura do Sistema](#arquitetura-do-sistema)** - Design técnico
-3. **[Componentes Técnicos](#componentes-técnicos)** - Tecnologias utilizadas
+3. **[Chunks e Overlaps](#fundamentação-chunks-e-overlaps)** - **ESSENCIAL: Como textos são processados**
+4. **[Guardrails em Sistemas RAG](#guardrails-em-sistemas-rag)** - **🛡️ PROTEÇÕES: Segurança e qualidade**
+5. **[Componentes Técnicos](#componentes-técnicos)** - Tecnologias utilizadas
 
 ### **🛠️ Implementação Prática**
 4. **[Configuração e Instalação](#configuração-e-instalação)** - Setup inicial
@@ -91,6 +93,578 @@ Pergunta → Busca Vetorial → Contexto → LLM → Resposta + Fontes
 4. **Armazenamento**: Salva vetores no ChromaDB
 5. **Recuperação**: Busca chunks relevantes
 6. **Geração**: LLM produz resposta final
+
+---
+
+## 🔪 **FUNDAMENTAÇÃO: CHUNKS E OVERLAPS**
+
+### 🎯 **O que são Chunks?**
+
+**Chunks** são fragmentos de texto de tamanho limitado criados pela divisão de documentos maiores. É o processo mais crítico em sistemas RAG, pois determina:
+
+- **Granularidade**: Quão específica é a informação recuperada
+- **Contexto**: Quantidade de informação disponível por busca
+- **Performance**: Velocidade de busca e geração de embeddings
+- **Qualidade**: Precisão das respostas geradas
+
+### 📐 **Por que Precisamos de Chunks?**
+
+**1. Limitações Técnicas:**
+```python
+# Limitações típicas de modelos
+MAX_TOKENS_EMBEDDING = 8192    # nomic-embed-text
+MAX_TOKENS_LLM = 4096          # contexto típico llama3
+MAX_CHUNK_SIZE = 500           # nosso padrão
+```
+
+**2. Limitações Cognitivas:**
+- LLMs têm dificuldade com textos muito longos
+- Informação relevante pode "se perder" em meio a muito contexto
+- Embeddings de textos grandes são menos precisos
+
+**3. Eficiência Computacional:**
+- Busca vetorial é mais rápida com chunks menores
+- Menos dados transferidos pela rede
+- Processamento paralelo mais eficiente
+
+### 🧩 **Como Funciona o Chunking?**
+
+**Estratégia Hierárquica (RecursiveCharacterTextSplitter):**
+
+```python
+# Separadores em ordem de prioridade
+separators = [
+    "\n\n",    # 1º: Parágrafos (preserva estrutura semântica)
+    "\n",      # 2º: Linhas (mantém unidade textual)  
+    " ",       # 3º: Palavras (preserva tokens)
+    ""         # 4º: Caracteres (último recurso)
+]
+
+# Processo inteligente
+1. Tenta dividir por parágrafo
+2. Se ainda muito grande → divide por linha
+3. Se ainda muito grande → divide por palavra
+4. Se ainda muito grande → divide por caractere
+```
+
+**Exemplo Prático:**
+```
+Documento Original (1500 chars):
+"A inteligência artificial (IA) é uma tecnologia...
+[parágrafo 1: 600 chars]
+
+Machine Learning é um subcampo da IA que permite...
+[parágrafo 2: 500 chars]
+
+Deep Learning, por sua vez, utiliza redes neurais...
+[parágrafo 3: 400 chars]"
+
+Resultado do Chunking (CHUNK_SIZE=500):
+┌─────────────────────────────────────┐
+│ CHUNK 1 (500 chars)                │
+│ "A inteligência artificial (IA)...  │
+│ [parágrafo 1 completo]              │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│ CHUNK 2 (500 chars)                │  
+│ "Machine Learning é um subcampo...  │
+│ [parágrafo 2 + início do 3]        │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│ CHUNK 3 (320 chars)                │
+│ "Deep Learning, por sua vez...      │  
+│ [resto do parágrafo 3]              │
+└─────────────────────────────────────┘
+```
+
+### 🔗 **O que são Overlaps?**
+
+**Overlap** é a sobreposição intencional entre chunks consecutivos. Em nosso sistema: **CHUNK_OVERLAP = 80 caracteres (~16% do chunk)**.
+
+**Visualização do Overlap:**
+```
+CHUNK 1: "...conceitos de machine learning são fundamentais para..."
+                                        ↕ OVERLAP (80 chars)
+CHUNK 2: "...são fundamentais para compreender deep learning..."
+```
+
+### 🎯 **Por que Overlaps são Necessários?**
+
+**1. Preservação de Contexto:**
+```
+❌ SEM OVERLAP:
+Chunk 1: "A técnica de gradient descent é utilizada para otimizar"
+Chunk 2: "funções de custo em redes neurais."
+❌ Informação fragmentada!
+
+✅ COM OVERLAP:
+Chunk 1: "A técnica de gradient descent é utilizada para otimizar"
+Chunk 2: "otimizar funções de custo em redes neurais profundas."
+✅ Contexto preservado!
+```
+
+**2. Evitar Quebra de Conceitos:**
+- Sentenças não ficam cortadas pela metade
+- Conceitos relacionados permanecem juntos
+- Referências pronominais mantêm sentido
+
+**3. Redundância Estratégica:**
+- Múltiplas oportunidades de recuperar informação importante
+- Maior chance de encontrar contexto relevante
+- Compensação para imprecisões na busca vetorial
+
+### 🗄️ **Como o Banco Vetorial Opera com Chunks?**
+
+**1. Processo de Armazenamento:**
+```python
+# Para cada chunk individual
+chunk_text = "Machine learning é um subcampo..."
+
+# 1. Geração de Embedding
+embedding = embedding_model.embed(chunk_text)
+# Resultado: vetor de 768 dimensões [0.123, -0.456, 0.789, ...]
+
+# 2. Armazenamento no ChromaDB
+vector_store.add(
+    documents=[chunk_text],
+    embeddings=[embedding], 
+    metadatas=[{"source": "ai_tutorial.txt", "chunk_id": 1}],
+    ids=["chunk_1"]
+)
+```
+
+**2. Estrutura de Dados Resultante:**
+```
+ChromaDB Collection "demo-rag":
+├── chunk_1: [embedding_768d] + metadata + texto
+├── chunk_2: [embedding_768d] + metadata + texto  
+├── chunk_3: [embedding_768d] + metadata + texto
+└── ...
+```
+
+**3. Processo de Busca:**
+```python
+# Consulta: "Como funciona machine learning?"
+
+# 1. Embedding da consulta
+query_embedding = embedding_model.embed("Como funciona machine learning?")
+
+# 2. Busca por similaridade cosseno
+results = vector_store.similarity_search_with_score(
+    query_embedding, 
+    k=4  # TOP-4 chunks mais similares
+)
+
+# 3. Resultado: chunks rankeados por relevância
+# Score 0.92: "Machine learning é um subcampo..."
+# Score 0.87: "Algoritmos de ML aprendem padrões..."  
+# Score 0.82: "Tipos de aprendizado incluem..."
+# Score 0.78: "Aplicações práticas de ML..."
+```
+
+### 🧮 **Como Funcionam os Embeddings neste Processo?**
+
+**1. Embeddings de Chunks Individuais:**
+```python
+# Cada chunk vira um ponto no espaço 768-dimensional
+chunk_1 = "IA é uma tecnologia revolucionária..."
+embedding_1 = [0.12, -0.34, 0.56, ..., 0.78]  # 768 números
+
+chunk_2 = "Machine learning utiliza algoritmos..."  
+embedding_2 = [0.15, -0.31, 0.52, ..., 0.81]  # 768 números
+
+# Chunks similares ficam próximos no espaço vetorial
+similarity = cosine_similarity(embedding_1, embedding_2)  # 0.87
+```
+
+**2. Vantagens de Embeddings por Chunk:**
+- **Precisão**: Cada embedding representa um conceito específico
+- **Eficiência**: Busca mais rápida em vetores menores
+- **Granularidade**: Pode recuperar informação muito específica
+
+**3. Matemática da Busca Vetorial:**
+```python
+# Similaridade cosseno entre query e chunk
+def cosine_similarity(vec_a, vec_b):
+    dot_product = sum(a * b for a, b in zip(vec_a, vec_b))
+    norm_a = sqrt(sum(a * a for a in vec_a))
+    norm_b = sqrt(sum(b * b for b in vec_b))
+    return dot_product / (norm_a * norm_b)
+
+# Valores próximos de 1.0 = muito similares
+# Valores próximos de 0.0 = pouco similares  
+# Valores negativos = opostos semanticamente
+```
+
+### ⚖️ **Desafios e Trade-offs de Chunks/Overlaps**
+
+**1. Tamanho dos Chunks:**
+
+| Tamanho | Vantagens | Desvantagens | Quando Usar |
+|---------|-----------|--------------|-------------|
+| **Pequeno (200-300)** | • Alta precisão<br>• Busca rápida<br>• Menos ruído | • Pouco contexto<br>• Pode fragmentar conceitos<br>• Mais chunks a gerenciar | • Bases de dados técnicas<br>• FAQ estruturado<br>• Respostas curtas |
+| **Médio (500-800)** | • Bom balance<br>• Contexto suficiente<br>• Performance adequada | • Trade-off moderado | • **PADRÃO RECOMENDADO**<br>• Documentação geral<br>• Maioria dos casos |
+| **Grande (1000-1500)** | • Muito contexto<br>• Preserva estrutura<br>• Menos fragmentação | • Busca mais lenta<br>• Embeddings menos precisos<br>• Pode incluir ruído | • Textos literários<br>• Análises complexas<br>• Contexto muito importante |
+
+**2. Overlaps:**
+
+| Overlap | Vantagens | Desvantagens | Cenário Ideal |
+|---------|-----------|--------------|---------------|
+| **0% (sem overlap)** | • Sem redundância<br>• Menos armazenamento<br>• Menos processamento | • ❌ Perde contexto<br>• ❌ Fragmenta conceitos<br>• ❌ Referências quebradas | • **NÃO RECOMENDADO**<br>• Apenas em casos de espaço limitado |
+| **10-20% (conservador)** | • Preserva contexto básico<br>• Pouca redundância<br>• Eficiente | • Pode ainda fragmentar<br>• Contexto limitado | • Documentos bem estruturados<br>• Textos com seções claras |
+| **20-30% (padrão)** | • ✅ **BOM BALANCE**<br>• ✅ Preserva contexto<br>• ✅ Evita fragmentação | • Redundância moderada<br>• Mais armazenamento | • **RECOMENDADO**<br>• Nosso padrão: 16% |
+| **40%+ (alto)** | • Máxima preservação<br>• Redundância alta<br>• Contexto garantido | • ❌ Muito armazenamento<br>• ❌ Busca mais lenta<br>• ❌ Informação duplicada | • Textos muito complexos<br>• Contexto crítico |
+
+### 🎯 **Como Decidir Parâmetros de Chunking?**
+
+**Análise do Tipo de Conteúdo:**
+```python
+# DOCUMENTAÇÃO TÉCNICA
+CHUNK_SIZE = 600        # Contexto suficiente para explicações
+CHUNK_OVERLAP = 100     # 16% - preserva referências técnicas
+
+# FAQ / RESPOSTAS CURTAS  
+CHUNK_SIZE = 300        # Respostas diretas
+CHUNK_OVERLAP = 50      # 16% - mínimo necessário
+
+# TEXTOS ACADÊMICOS
+CHUNK_SIZE = 800        # Argumentos complexos precisam de contexto
+CHUNK_OVERLAP = 150     # 18% - preserva estrutura argumentativa
+
+# CÓDIGO FONTE (se aplicável)
+CHUNK_SIZE = 1000       # Funções/classes completas
+CHUNK_OVERLAP = 200     # 20% - preserva dependências
+```
+
+**Métricas para Otimizar:**
+```python
+# 1. Execute análise de chunks
+python scripts/analyze_chunks.py --full
+
+# 2. Verifique métricas de qualidade  
+python scripts/evaluate_rag.py
+
+# 3. Teste diferentes configurações
+export CHUNK_SIZE=800
+export CHUNK_OVERLAP=150
+python scripts/run_ingest.py
+
+# 4. Compare resultados
+python scripts/run_query.py "pergunta teste"
+```
+
+### 🔬 **Análise Avançada de Chunks**
+
+**Script de Análise Detalhada:**
+```bash
+# Ver estatísticas completas de chunking
+python scripts/analyze_chunks.py --full
+
+# Análises que você verá:
+# • Distribuição de tamanhos
+# • Overlaps efetivos encontrados  
+# • Chunks por documento
+# • Conteúdo exato dos overlaps
+# • Identificação de problemas
+```
+
+**Métricas Importantes:**
+- **Tamanho médio real** vs configurado
+- **Percentual de overlap efetivo**
+- **Chunks "órfãos"** (muito pequenos)
+- **Distribuição por documento**
+- **Qualidade da preservação de estrutura**
+
+### 🚀 **Otimização Prática**
+
+**1. Configuração Recomendada (nosso padrão):**
+```python
+CHUNK_SIZE = 500        # Balance contexto/precisão
+CHUNK_OVERLAP = 80      # 16% - preserva contexto
+RETRIEVAL_K = 4         # TOP-4 chunks mais relevantes
+```
+
+**2. Para Experimentar:**
+```bash
+# Teste chunks maiores para mais contexto
+export CHUNK_SIZE=800
+export CHUNK_OVERLAP=120
+
+# Teste mais overlaps para máxima preservação  
+export CHUNK_OVERLAP=150
+
+# Teste recuperar mais chunks
+export RETRIEVAL_K=6
+```
+
+**3. Monitoramento Contínuo:**
+- Execute `analyze_chunks.py` após mudanças
+- Teste com perguntas reais do seu domínio
+- Compare qualidade das respostas
+- Monitore tempo de resposta
+
+---
+
+## 🛡️ **GUARDRAILS EM SISTEMAS RAG**
+
+### 🎯 **O que são Guardrails?**
+
+**Guardrails** são mecanismos de controle e validação que garantem que sistemas RAG produzam respostas **seguras, precisas e baseadas exclusivamente no contexto** recuperado, evitando alucinações e respostas inventadas.
+
+### 🏗️ **Arquitetura de Guardrails (4 Camadas)**
+
+```
+INPUT → [🔍 Input Guards] → RETRIEVAL → [⚖️ Relevance Guards] → 
+GENERATION → [📝 Prompt Guards] → OUTPUT → [✅ Output Guards] → RESPOSTA
+```
+
+**1. INPUT GUARDRAILS (Pré-processamento):**
+- Validação de queries maliciosas (injection attacks)
+- Sanitização e normalização de entrada
+- Filtro de queries muito curtas/longas
+
+**2. RETRIEVAL GUARDRAILS (Recuperação):**
+- **Threshold de similaridade rigoroso** - filtra contexto irrelevante
+- Curto-circuito quando não há contexto adequado
+- Validação de qualidade dos chunks recuperados
+
+**3. PROMPT GUARDRAILS (Geração):**
+- **Templates rigorosos** que limitam escopo do LLM
+- Instruções explícitas: "responda APENAS com base no contexto"
+- Formato de resposta padronizado
+
+**4. OUTPUT GUARDRAILS (Pós-processamento):**
+- Validação de fidelidade ao contexto
+- Detecção de alucinações
+- Verificação de citação de fontes
+
+### ⚖️ **Threshold de Similaridade - O Coração dos Guardrails**
+
+**O threshold determina quão "similar" um chunk deve ser para ser considerado relevante:**
+
+```python
+# ChromaDB usa distância (menor = mais similar)
+THRESHOLD_STRICT = 0.25      # Apenas chunks muito relevantes
+THRESHOLD_BALANCED = 0.35    # Balance entre precisão e cobertura  
+THRESHOLD_PERMISSIVE = 0.50  # Aceita contexto menos relevante
+```
+
+**Exemplo prático:**
+```bash
+# Query: "Como funciona cache distribuído?"
+# Chunk 1: "Redis é usado como cache distribuído..." (score: 0.15) ✅ ACEITO
+# Chunk 2: "Implementamos microserviços..."        (score: 0.40) ❌ REJEITADO
+# Chunk 3: "Cache distribuído com Infinispan..."   (score: 0.18) ✅ ACEITO
+
+# Resultado: Apenas chunks 1 e 3 são enviados ao LLM
+```
+
+### 🔧 **Implementação Prática**
+
+**1. Sistema RAG com Guardrails Completos:**
+```bash
+# Script principal com todas as proteções
+python scripts/rag_with_guardrails.py "Qual é a latência das APIs?"
+
+# Diferentes níveis de rigor
+python scripts/rag_with_guardrails.py "Como funciona Kubernetes?" strict strict
+python scripts/rag_with_guardrails.py "Explique microserviços" balanced balanced
+```
+
+**2. Otimização de Threshold:**
+```bash
+# Análise automática para encontrar threshold ótimo
+python scripts/threshold_optimizer.py
+
+# Resultado: recomendação baseada em análise estatística
+```
+
+### 📊 **Tipos de Prompt Templates**
+
+**1. STRICT Template (Máxima Segurança):**
+```
+Você é um assistente que responde EXCLUSIVAMENTE com base no contexto fornecido.
+
+REGRAS OBRIGATÓRIAS:
+1. Use APENAS informações presentes no CONTEXTO
+2. Se não estiver no contexto: "❌ Não encontrei informações relevantes"
+3. NUNCA invente, deduza ou use conhecimento externo
+4. Sempre cite a fonte: (Fonte: arquivo.txt)
+```
+
+**2. BALANCED Template (Flexibilidade Limitada):**
+```
+Priorize SEMPRE as informações do CONTEXTO fornecido.
+Use conhecimento geral apenas para esclarecimentos básicos.
+Indique claramente quando uma informação vem do contexto vs conhecimento geral.
+```
+
+### ⚡ **Resultados dos Guardrails**
+
+**Sem Guardrails:**
+```
+Query: "Como funciona inteligência artificial?"
+Resposta: "A inteligência artificial é um campo amplo que inclui machine learning, 
+deep learning, processamento de linguagem natural..." [ALUCINAÇÃO - info não está no contexto]
+```
+
+**Com Guardrails:**
+```
+Query: "Como funciona inteligência artificial?"  
+Resposta: "❌ Não encontrei informações relevantes no contexto disponível."
+[CORRETO - info realmente não está no sistema_completo.txt]
+```
+
+**Contexto Encontrado:**
+```
+Query: "Qual é a latência das APIs?"
+Resposta: "✅ Com base no contexto fornecido: A latência média das APIs é de 150ms 
+em 99% dos casos. (Fonte: sistema_completo.txt)"
+[CORRETO - info extraída exatamente do contexto]
+```
+
+### 🎯 **Configuração de Threshold por Caso de Uso**
+
+| Tipo de Sistema | Threshold | Justificativa |
+|------------------|-----------|---------------|
+| **Sistema Crítico** (medicina, financeiro) | 0.20-0.25 | Zero tolerância a informação incorreta |
+| **Documentação Técnica** (nosso exemplo) | 0.30-0.35 | Balance entre precisão e cobertura |
+| **FAQ/Suporte** | 0.40-0.50 | Cobertura mais importante que precisão absoluta |
+| **Busca Exploratória** | 0.50-0.60 | Descoberta de informação relacionada |
+
+### 🔬 **Análise de Qualidade dos Guardrails**
+
+**Métricas Importantes:**
+```bash
+# Executar análise completa
+python scripts/rag_with_guardrails.py --test
+
+# Métricas reportadas:
+# • Taxa de Sucesso: % de queries respondidas com contexto
+# • Taxa de Rejeição: % de queries rejeitadas por baixa relevância  
+# • Taxa de Proteção: % de queries maliciosas bloqueadas
+# • Fidelidade Média: % de resposta baseada no contexto
+```
+
+**Interpretação:**
+- **Alta Taxa de Rejeição** = Threshold muito rigoroso
+- **Baixa Fidelidade** = Template muito permissivo  
+- **Muitas Respostas Genéricas** = Threshold muito permissivo
+
+### 🚨 **Detecção de Ataques de Injection**
+
+**Padrões Bloqueados Automaticamente:**
+```bash
+# Tentativas de manipulação do prompt
+"ignore previous instructions"
+"forget everything and act as"
+"system: you are now"
+
+# Resultado: Query rejeitada antes de chegar ao LLM
+```
+
+### 🎛️ **Configuração Avançada**
+
+**Variáveis de Ambiente para Guardrails:**
+```bash
+# Threshold de similaridade
+export SIMILARITY_THRESHOLD=0.30
+
+# Modo de template (strict/balanced)
+export TEMPLATE_MODE=strict
+
+# Número mínimo de chunks necessários
+export MIN_CHUNKS_REQUIRED=2
+
+# Ativar logs detalhados de guardrails
+export GUARDRAILS_VERBOSE=1
+```
+
+### 📈 **Otimização Contínua**
+
+**1. Análise de Threshold:**
+```bash
+# Encontrar threshold ótimo para seus dados
+python scripts/threshold_optimizer.py
+
+# Resultado: recomendação estatística baseada em seus documentos
+```
+
+**2. Monitoramento de Qualidade:**
+```bash
+# Logs de decisões de guardrail
+tail -f guardrails.log
+
+# Métricas de performance
+python scripts/evaluate_rag.py --guardrails
+```
+
+### 🎯 **Casos de Uso Avançados**
+
+**1. Threshold Adaptativo:**
+```python
+# Threshold baseado na complexidade da query
+if len(query.split()) > 10:
+    threshold = 0.40  # Queries complexas precisam de mais contexto
+else:
+    threshold = 0.30  # Queries simples podem ser mais rigorosas
+```
+
+**2. Validação Semântica:**
+```python
+# Verificar se resposta "faz sentido" semanticamente
+similarity_score = cosine_similarity(query_embedding, response_embedding)
+if similarity_score < 0.6:
+    return "❌ Resposta gerada não parece relacionada à pergunta"
+```
+
+**3. Guardrails Específicos por Domínio:**
+```python
+# Regras específicas para documentação técnica
+if "performance" in query.lower():
+    required_keywords = ["latência", "tempo", "velocidade", "ms", "segundos"]
+    if not any(keyword in response.lower() for keyword in required_keywords):
+        flag_as_potentially_hallucinated()
+```
+
+### 🏆 **Boas Práticas para Guardrails**
+
+**1. Comece Rigoroso:**
+- Use threshold baixo (0.25-0.30) inicialmente
+- Aumente gradualmente baseado em análise empírica
+
+**2. Monitore Continuamente:**
+- Log todas as decisões de guardrail
+- Analise queries rejeitadas para detectar falsos negativos
+- Revise periodicamente threshold baseado em feedback
+
+**3. Teste Adversarial:**
+- Teste com queries maliciosas intencionalmente
+- Valide que queries fora do domínio são rejeitadas
+- Verifique que respostas inventadas são detectadas
+
+**4. Balance Precisão vs Usabilidade:**
+- Guardrails muito rigorosos frustram usuários
+- Guardrails muito permissivos comprometem qualidade
+- Encontre o sweet spot para seu caso de uso
+
+### 🚀 **Implementação em Produção**
+
+**Arquitetura Recomendada:**
+```
+API Request → Rate Limiting → Input Validation → 
+RAG with Guardrails → Output Validation → Response + Metadata
+```
+
+**Monitoramento Essencial:**
+- Taxa de queries rejeitadas por guardrail
+- Tempo médio de processamento por threshold
+- Feedback de usuários sobre qualidade das respostas
+- Detecção de tentativas de bypass
+
+**Os Guardrails transformam um sistema RAG experimental em um sistema confiável para produção!** 🛡️✨
 
 ---
 
@@ -265,23 +839,26 @@ python scripts/show_vectors.py "tecnologia" true
 - Debug de similaridade
 - Análise matemática profunda
 
-### 6. **analyze_chunks.py** - Análise de Chunking
+### 6. **analyze_chunks.py** - 🔥 **ANÁLISE ESSENCIAL DE CHUNKING**
 
 **O que faz:**
 ```bash
 python scripts/analyze_chunks.py --full
 ```
 
-**Análises:**
-- Estatísticas de tamanho dos chunks
-- Overlaps entre chunks consecutivos
-- Distribuição por documento
-- Qualidade do chunking
+**Análises Críticas:**
+- ✅ **Estatísticas de tamanho** dos chunks (média, min, max)
+- ✅ **Overlaps entre chunks consecutivos** - detecta e mostra sobreposições
+- ✅ **Distribuição por documento** - como cada arquivo foi dividido
+- ✅ **Qualidade do chunking** - identifica problemas de fragmentação
+- ✅ **Conteúdo exato dos overlaps** - mostra texto sobreposto
 
 **Quando usar:**
-- Otimizar parâmetros de chunking
-- Entender como documentos são divididos
-- Debug de problemas de sobreposição
+- 🎯 **SEMPRE** após configurar ou mudar parâmetros de chunking
+- 🔧 Otimizar CHUNK_SIZE e CHUNK_OVERLAP  
+- 🐛 Debug de problemas de sobreposição
+- 📊 Entender como documentos foram processados
+- ⚙️ **Antes de otimizar performance** - veja a seção [Chunks e Overlaps](#fundamentação-chunks-e-overlaps)
 
 ### 7. **list_raw.py** - Listagem Simples
 
@@ -304,9 +881,56 @@ python scripts/list_raw.py
 
 ## 🔬 Scripts Avançados
 
-Agora vou implementar scripts avançados para aprofundar seu estudo:
+### 1. **rag_with_guardrails.py** - 🛡️ **RAG COM PROTEÇÕES COMPLETAS**
 
-### 1. **evaluate_rag.py** - Avaliação de Qualidade
+**O que faz:**
+```bash
+# RAG básico com guardrails
+python scripts/rag_with_guardrails.py "Qual é a latência das APIs?"
+
+# Configurar rigor dos filtros
+python scripts/rag_with_guardrails.py "Como funciona Kubernetes?" strict strict
+python scripts/rag_with_guardrails.py "Explique microserviços" permissive balanced
+
+# Teste automático com múltiplas queries
+python scripts/rag_with_guardrails.py --test
+```
+
+**Para que serve:**
+- 🛡️ **Proteção contra alucinações** - força aderência ao contexto
+- ⚖️ **Filtro de relevância** - threshold de similaridade rigoroso
+- 🔒 **Validação de entrada** - detecta tentativas de injection
+- ✅ **Validação de saída** - verifica fidelidade e citação de fontes
+- 📊 **Métricas de qualidade** - avalia efetividade dos guardrails
+
+**Quando usar:**
+- **SEMPRE** em sistemas de produção
+- Quando precisar de respostas 100% baseadas no contexto
+- Para sistemas críticos (medicina, finanças, legal)
+- Análise de segurança e robustez
+
+### 2. **threshold_optimizer.py** - 📊 **OTIMIZAÇÃO AUTOMÁTICA DE THRESHOLD**
+
+**O que faz:**
+```bash
+# Análise completa e recomendação de threshold ótimo
+python scripts/threshold_optimizer.py
+```
+
+**Para que serve:**
+- 📈 **Análise estatística** de distribuição de scores de similaridade
+- 🎯 **Recomendação automática** de threshold baseada em dados
+- ⚖️ **Trade-off analysis** entre precisão e cobertura
+- 📊 **Visualizações** de performance por threshold
+- 🏆 **Threshold ótimo** para seu dataset específico
+
+**Quando usar:**
+- **Antes de configurar um sistema RAG** para encontrar parâmetros ideais
+- Quando mudar o tipo de documentos/conteúdo
+- Para otimização de performance
+- Análise científica de qualidade de embeddings
+
+### 3. **evaluate_rag.py** - 🔬 **AVALIAÇÃO DE QUALIDADE**
 
 **Para que serve:**
 - Medir qualidade objetiva das respostas
@@ -418,17 +1042,22 @@ results = evaluate(
 
 ### Otimização de Performance
 
-**1. Chunking Strategy:**
+**1. Chunking Strategy (📖 [Ver seção detalhada](#fundamentação-chunks-e-overlaps)):**
 ```python
-# Teste diferentes tamanhos
+# Teste diferentes tamanhos - consulte guia completo acima
 CHUNK_SIZES = [250, 500, 1000, 1500]
 OVERLAPS = [50, 100, 200]
 
-# Avalie qual combinação funciona melhor
+# Analise resultados com:
+python scripts/analyze_chunks.py --full
+
+# Avalie qual combinação funciona melhor para SEU caso
 for size in CHUNK_SIZES:
     for overlap in OVERLAPS:
-        # Execute testes
-        pass
+        export CHUNK_SIZE=$size
+        export CHUNK_OVERLAP=$overlap
+        python scripts/run_ingest.py
+        python scripts/run_query.py "sua pergunta teste"
 ```
 
 **2. Embedding Models:**

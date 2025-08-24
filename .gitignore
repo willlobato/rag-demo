@@ -178,5 +178,11 @@ logs/
 *.tmp
 *.temp
 
+# Analysis results and generated files
 evaluation_results.json
 similarity_heatmap.png
+
+# Threshold optimizer generated files
+threshold_analysis_*.json
+threshold_distribution.png
+threshold_comparison.png
