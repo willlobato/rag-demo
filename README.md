@@ -91,14 +91,35 @@ ollama pull nomic-embed-text
 git clone <repo-url>
 cd rag-demo
 
-# Criar ambiente virtual
+# Criar ambiente virtual (recomendado: .venv)
 python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate   # Windows
+
+# Ativar o ambiente
+# macOS / Linux (bash, zsh)
+source .venv/bin/activate
+
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+
+# Windows (cmd)
+.venv\Scripts\activate.bat
 
 # Instalar dependências
 pip install -r requirements.txt
 ```
+
+### VSCode (opcional)
+
+- Abra a Command Palette e selecione "Python: Select Interpreter"; escolha o interpretador dentro de `.venv`.
+- Para ativação automática do ambiente no terminal integrado, adicione em seu `settings.json` (ou ative a opção nas configurações):
+
+```json
+{
+	"python.terminal.activateEnvironment": true
+}
+```
+
+O plugin Python do VSCode normalmente ativa o ambiente automaticamente quando o interpretador correto é selecionado.
 
 ### 3. **Verificar Instalação**
 ```bash
@@ -160,7 +181,7 @@ python scripts/evaluate_rag.py
 
 ### 🧭 **Como Navegar**
 1. **Iniciante?** Comece em `docs/guides/TUTORIAL_RAG.md`
-2. **Desenvolvedor?** Vá para `docs/reference/STRUCTURE_PROPOSAL.md`
+2. **Desenvolvedor?** Vá para `docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md`
 3. **Pesquisador?** Explore `docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md`
 
 ---
@@ -215,7 +236,7 @@ Este projeto é open source e está disponível sob a licença MIT.
 3. **Documente** seguindo os padrões educacionais
 4. **Submeta** um pull request
 
-Para contribuições, consulte `docs/reference/STRUCTURE_PROPOSAL.md` para diretrizes arquiteturais.
+Para contribuições, consulte a documentação em `docs/` para diretrizes do projeto.
 
 ---
 

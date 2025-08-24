@@ -25,8 +25,7 @@
 │
 ├── 🎓 FUNDAMENTAÇÃO TEÓRICA
 │   ├── TUTORIAL_RAG.md ..................... (Base conceitual)
-│   ├── GLOSSARIO_CONCEITOS.md .............. (Dicionário técnico)
-│   └── STRUCTURE_PROPOSAL.md ............... (Arquitetura do projeto)
+│   └── GLOSSARIO_CONCEITOS.md .............. (Dicionário técnico)
 │
 ├── 📊 ORGANIZAÇÃO E CLASSIFICAÇÃO
 │   ├── CLASSIFICACAO_SCRIPTS.md ............ (Níveis de complexidade)

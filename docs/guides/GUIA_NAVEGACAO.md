@@ -25,7 +25,7 @@
 
 ### 🛠️ **Para Desenvolvedores**
 ```
-📋 STRUCTURE_PROPOSAL.md → ⚙️ Código fonte → 🔧 Scripts de apoio
+📋 DOCUMENTACAO_SCRIPTS_AVANCADOS.md → ⚙️ Código fonte → 🔧 Scripts de apoio
 ```
 
 ---

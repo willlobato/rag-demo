@@ -20,7 +20,6 @@
 ### 📖 Documentação Principal
 - **[README.md](../../README.md)** - Introdução geral e setup inicial
 - **[TUTORIAL_RAG.md](../guides/TUTORIAL_RAG.md)** - Guia completo sobre conceitos RAG
-- **[STRUCTURE_PROPOSAL.md](../reference/STRUCTURE_PROPOSAL.md)** - Proposta de estrutura do projeto
 
 ### 🎓 Sistema Educacional
 - **[RESUMO_SISTEMA_EDUCACIONAL.md](RESUMO_SISTEMA_EDUCACIONAL.md)** - Visão geral do sistema educacional

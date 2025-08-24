@@ -20,7 +20,6 @@ Bem-vindo ao centro de documentação do RAG Demo! Este diretório contém toda 
 
 - **[GLOSSARIO_CONCEITOS.md](reference/GLOSSARIO_CONCEITOS.md)** 📖 - Dicionário de termos técnicos
 - **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** 🔬 - Análise técnica avançada
-- **[STRUCTURE_PROPOSAL.md](reference/STRUCTURE_PROPOSAL.md)** 🏗️ - Proposta de arquitetura
 
 ### 🗄️ **[organization/](organization/) - Meta-Documentação**
 > **Organização e estruturação do sistema educacional**
@@ -44,8 +43,8 @@ Bem-vindo ao centro de documentação do RAG Demo! Este diretório contém toda 
 
 ### 🟡 **Para Desenvolvedores**
 ```
-1️⃣ reference/STRUCTURE_PROPOSAL.md → Arquitetura
-2️⃣ organization/CLASSIFICACAO_SCRIPTS.md → Complexidade
+1️⃣ guides/TUTORIAL_RAG.md → Fundamentos
+2️⃣ organization/CLASSIFICACAO_SCRIPTS.md → Complexidade  
 3️⃣ guides/GUIA_NAVEGACAO.md → Navegação
 ```
 
