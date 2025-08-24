@@ -1,6 +1,30 @@
 #!/usr/bin/env python3
-# list_docs.py
-# Script para listar documentos indexados
+"""
+📋 LIST DOCS - EXPLORADOR EDUCACIONAL DE DOCUMENTOS INDEXADOS
+
+Este script fornece uma interface educacional para explorar e compreender
+os documentos armazenados no vector store, demonstrando como os dados
+são organizados e indexados em um sistema RAG.
+
+🎯 FUNCIONALIDADES EDUCACIONAIS:
+
+📚 EXPLORAÇÃO DE METADADOS:
+- Lista todos os documentos com suas propriedades
+- Mostra source, chunk_id, e outras informações estruturais
+- Demonstra como os metadados são preservados durante indexação
+- Explica a importância dos metadados para filtragem e organização
+
+📊 ESTATÍSTICAS DE COLEÇÃO:
+- Número total de chunks por documento
+- Distribuição de tamanhos e tipos
+- Análise de fontes e categorias
+- Métricas de cobertura da base de conhecimento
+
+🚀 USO EDUCACIONAL:
+Este script ajuda a compreender como os dados são organizados
+internamente em um sistema RAG, demonstrando as melhores práticas
+de estruturação e indexação de documentos.
+"""
 
 import sys
 from pathlib import Path

@@ -1,6 +1,30 @@
 #!/usr/bin/env python3
-# show_vectors.py
-# Script para mostrar os valores reais dos vetores
+"""
+🧮 SHOW VECTORS - VISUALIZAÇÃO EDUCACIONAL DE EMBEDDINGS VETORIAIS
+
+Este script fornece uma janela educacional para o mundo dos embeddings,
+permitindo visualizar e compreender como os textos são representados
+como vetores em espaços de alta dimensionalidade.
+
+🎯 FUNCIONALIDADES EDUCACIONAIS:
+
+🔢 EXPLORAÇÃO DE EMBEDDINGS:
+- Visualização de vetores de embedding reais
+- Dimensionalidade e estrutura dos vetores
+- Valores numéricos e distribuições
+- Comparação entre embeddings de diferentes textos
+
+📐 CONCEITOS MATEMÁTICOS:
+- Representação vetorial de 768 dimensões
+- Valores entre -1 e 1 (tipicamente)
+- Normalização L2 para comparações justas
+- Densidade e esparsidade dos vetores
+
+🚀 USO EDUCACIONAL:
+Este script desmistifica os embeddings, mostrando que por trás
+da "mágica" da similaridade semântica há estruturas matemáticas
+compreensíveis e analisáveis.
+"""
 
 import sys
 from pathlib import Path

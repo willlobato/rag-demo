@@ -1,6 +1,30 @@
 #!/usr/bin/env python3
-# search_docs.py
-# Script para busca semântica direta (sem LLM)
+"""
+🔎 SEARCH DOCS - DEMONSTRAÇÃO EDUCACIONAL DE BUSCA VETORIAL
+
+Este script demonstra como funciona a busca vetorial em sistemas RAG,
+permitindo explorar diretamente o mecanismo de recuperação de documentos
+sem a camada de geração de respostas.
+
+🎯 FUNCIONALIDADES EDUCACIONAIS:
+
+🔍 BUSCA VETORIAL PURA:
+- Demonstra busca por similaridade semântica
+- Mostra scores de similaridade em tempo real
+- Permite experimentar com diferentes queries
+- Explica como embeddings determinam relevância
+
+📊 ANÁLISE DE RESULTADOS:
+- Ranking dos documentos por similaridade
+- Scores numéricos para interpretação
+- Comparação entre diferentes tipos de query
+- Identificação de padrões de recuperação
+
+🚀 USO EDUCACIONAL:
+Este script é ideal para compreender os fundamentos da busca
+vetorial, permitindo experimentação direta com o core engine
+do sistema RAG antes de adicionar a camada de geração.
+"""
 
 import sys
 from pathlib import Path

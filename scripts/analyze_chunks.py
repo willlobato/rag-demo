@@ -1,6 +1,50 @@
 #!/usr/bin/env python3
-# analyze_chunks.py
-# Script para analisar chunks e seus overlaps
+"""
+📝 ANALYZE CHUNKS - ANÁLISE EDUCACIONAL DA ESTRATÉGIA DE CHUNKING
+
+Este script fornece análise detalhada do processo de chunking, permitindo
+compreender como os documentos foram divididos e otimizar a estratégia
+de segmentação para melhor performance do RAG.
+
+📚 FUNDAMENTOS DO CHUNKING:
+
+O chunking é um dos processos mais críticos em sistemas RAG, pois determina:
+- Granularidade da informação recuperada
+- Qualidade do contexto fornecido ao LLM
+- Eficiência da busca vetorial
+- Cobertura da base de conhecimento
+
+🎯 ANÁLISES IMPLEMENTADAS:
+
+📊 ESTATÍSTICAS DE TAMANHO:
+- Distribuição de tamanhos (caracteres e palavras)
+- Média, mediana, desvio padrão
+- Identificação de outliers (chunks muito grandes/pequenos)
+- Histograma de distribuição
+
+📐 ANÁLISE DE OVERLAP:
+- Sobreposição entre chunks consecutivos
+- Percentual de overlap efetivo
+- Detecção de informação redundante
+- Análise de continuidade semântica
+
+📑 ANÁLISE POR DOCUMENTO:
+- Número de chunks por documento original
+- Eficiência da segmentação
+- Preservação da estrutura documental
+- Identificação de documentos problemáticos
+
+🔍 ANÁLISE DE CONTEÚDO:
+- Densidade informacional por chunk
+- Identificação de chunks "vazios" ou pouco informativos
+- Distribuição de entidades e conceitos-chave
+- Qualidade da preservação de contexto
+
+🚀 USO EDUCACIONAL:
+Este script demonstra como analisar e otimizar estratégias de chunking,
+fornecendo insights práticos sobre como melhorar a qualidade da
+segmentação documental em sistemas RAG.
+"""
 
 import sys
 from pathlib import Path

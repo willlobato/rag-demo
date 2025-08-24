@@ -1,6 +1,130 @@
 #!/usr/bin/env python3
 # analyze_retrieval.py
-# Script para análise detalhada da qualidade de recuperação
+#!/usr/bin/env python3
+"""
+🔍 ANALYZE RETRIEVAL - ANÁLISE PROFUNDA DO SISTEMA DE RECUPERAÇÃO
+
+Este script implementa análises especializadas do componente de recuperação (retrieval)
+em sistemas RAG, focando em métricas específicas de Information Retrieval e
+detecção de problemas na busca vetorial.
+
+📚 FUNDAMENTAÇÃO TEÓRICA:
+O sistema de recuperação é o coração do RAG - sua qualidade determina diretamente
+a relevância das respostas finais. Este script aplica métricas clássicas de
+Information Retrieval adaptadas para busca vetorial e retrieval semântico.
+
+🎯 OBJETIVOS:
+1. Medir eficácia da busca vetorial com métricas IR clássicas
+2. Analisar distribuição e qualidade dos scores de similaridade
+3. Identificar queries problemáticas e padrões de falha
+4. Avaliar cobertura e diversidade dos resultados
+5. Detectar viés e problemas sistemáticos na recuperação
+
+📊 MÉTRICAS DE INFORMATION RETRIEVAL IMPLEMENTADAS:
+
+🎯 PRECISION@K:
+- Fórmula: P@K = |Relevantes ∩ Recuperados@K| / K
+- Interpretação: "Dos K documentos que recuperei, quantos são relevantes?"
+- Valores ideais: P@1 > 0.8, P@3 > 0.7, P@5 > 0.6
+- Uso: Mede precisão da recuperação para diferentes cut-offs
+
+📈 RECALL@K:
+- Fórmula: R@K = |Relevantes ∩ Recuperados@K| / |Relevantes|
+- Interpretação: "Dos documentos relevantes, quantos recuperei nos top-K?"
+- Valores ideais: R@5 > 0.8, R@10 > 0.9
+- Uso: Mede cobertura da informação relevante
+
+🎯 MEAN RECIPROCAL RANK (MRR):
+- Fórmula: MRR = (1/n) × Σ(1/rank_primeiro_relevante)
+- Interpretação: Foca na posição do primeiro resultado relevante
+- Valores ideais: MRR > 0.7 (primeiro relevante em posição ≤ 1.4)
+- Uso: Crítico para interfaces onde usuário vê poucos resultados
+
+📊 NORMALIZED DISCOUNTED CUMULATIVE GAIN (NDCG):
+- Fórmula: NDCG@K = DCG@K / IDCG@K
+- DCG = Σ(2^relevância - 1) / log₂(posição + 1)
+- Interpretação: Considera tanto relevância quanto posição
+- Valores ideais: NDCG@5 > 0.8
+- Uso: Métrica mais sofisticada que considera ranking completo
+
+🔍 ANÁLISES ESPECÍFICAS IMPLEMENTADAS:
+
+📈 SCORE DISTRIBUTION ANALYSIS:
+- Objetivo: Analisar distribuição dos scores de similaridade
+- Métricas: Média, mediana, quartis, skewness, kurtosis
+- Detecção: Distribuições bimodais, gaps, outliers
+- Interpretação: 
+  * Gap alto entre top results = boa discriminação
+  * Distribuição uniforme = problema no modelo
+  * Scores muito baixos = vocabulário incompatível
+
+🚨 PROBLEMATIC QUERIES DETECTION:
+- Critérios: Baixo score máximo, alta variância, poucos resultados
+- Identificação: Queries que consistentemente falham
+- Análise: Padrões lexicais, temas problemáticos
+- Ação: Expansão de vocabulário, re-chunking, fine-tuning
+
+📊 CHUNK POPULARITY ANALYSIS:
+- Objetivo: Identificar chunks mais/menos recuperados
+- Métricas: Frequência de recuperação, ranking médio
+- Detecção: Chunks "órfãos" (nunca recuperados)
+- Interpretação:
+  * Chunks muito populares = possível redundância
+  * Chunks órfãos = informação inacessível
+  * Distribuição uniforme = boa cobertura
+
+🎭 DIVERSITY ANALYSIS:
+- Objetivo: Medir diversidade dos resultados recuperados
+- Métricas: Intra-list diversity, topic coverage
+- Cálculo: Similaridade média entre docs recuperados
+- Interpretação:
+  * Alta similaridade intra-lista = falta diversidade
+  * Baixa similaridade = boa cobertura temática
+  * Balanceamento ideal: relevância + diversidade
+
+📐 GEOMETRIC ANALYSIS:
+- Objetivo: Analisar geometria do espaço de busca
+- Métricas: Distâncias, clusters, regiões densas/esparsas
+- Visualização: PCA, t-SNE para espaços 2D/3D
+- Insights: Estrutura do conhecimento, gaps semânticos
+
+🔧 RETRIEVAL EFFICIENCY ANALYSIS:
+- Objetivo: Medir eficiência computacional
+- Métricas: Tempo por query, throughput, uso de memória
+- Escalabilidade: Performance vs tamanho do índice
+- Otimização: Identificar gargalos e oportunidades
+
+📖 CONCEITOS TEÓRICOS APLICADOS:
+
+VECTOR SPACE MODEL:
+- Representação de documentos como vetores em espaço n-dimensional
+- Similaridade baseada em ângulo/distância entre vetores
+- Pressuposto: Proximidade semântica ≈ proximidade vetorial
+
+SEMANTIC SIMILARITY:
+- Vai além de matching lexical para capturar significado
+- Baseada em embeddings pré-treinados ou fine-tuned
+- Desafio: Polissemia, sinonímia, contexto
+
+RANKING FUNCTIONS:
+- Ordenação dos resultados por relevância
+- Combinação de múltiplos sinais: similaridade, popularidade, freshness
+- Trade-offs: precisão vs diversidade, velocidade vs qualidade
+
+🚀 USO EDUCACIONAL:
+Este script demonstra como aplicar métricas clássicas de Information Retrieval
+em sistemas modernos de busca vetorial, bridging conceitos tradicionais com
+tecnologias contemporâneas de NLP e embedding.
+"""
+
+import sys
+import numpy as np
+from pathlib import Path
+from typing import List, Dict, Any, Tuple, Optional
+from collections import defaultdict, Counter
+import json
+from dataclasses import dataclass
+import statistics
 
 import sys
 import numpy as np

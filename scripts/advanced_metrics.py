@@ -1,6 +1,41 @@
 #!/usr/bin/env python3
-# advanced_metrics.py
-# Script para métricas avançadas e insights matemáticos dos embeddings
+"""
+🔬 ADVANCED METRICS - ANÁLISE MATEMÁTICA PROFUNDA DOS EMBEDDINGS
+
+Este script implementa análises científicas e matemáticas avançadas para avaliar
+a qualidade dos embeddings em um sistema RAG (Retrieval-Augmented Generation).
+
+📚 FUNDAMENTAÇÃO TEÓRICA:
+Os embeddings são representações vetoriais de documentos em um espaço n-dimensional.
+A qualidade desses vetores determina diretamente a eficácia do sistema RAG.
+
+🎯 OBJETIVOS:
+1. Avaliar qualidade matemática dos embeddings (normalização, distribuição)
+2. Detectar problemas estruturais (outliers, correlações, redundâncias)
+3. Medir diversidade e entropia informacional
+4. Fornecer insights acionáveis para otimização
+
+🔍 MÉTRICAS IMPLEMENTADAS:
+- Normalização vetorial (normas L2)
+- Análise de distribuições estatísticas
+- Detecção de outliers (Z-score, IQR)
+- Cálculo de entropia informacional
+- Análise de correlações entre dimensões
+- Características dos documentos vs embeddings
+
+📖 CONCEITOS MATEMÁTICOS:
+- Álgebra Linear: Normas, produtos internos, projeções
+- Estatística: Distribuições, correlações, outliers
+- Teoria da Informação: Entropia, diversidade
+- Machine Learning: Clustering, detecção de anomalias
+
+🚀 USO EDUCACIONAL:
+Cada função é documentada com:
+- Explicação matemática do conceito
+- Interpretação dos resultados
+- Valores ideais e problemáticos
+- Ações corretivas recomendadas
+"""
 
 import sys
 import numpy as np
@@ -18,9 +53,43 @@ from rag_demo.rag import build_or_load_vectorstore
 
 
 class AdvancedMetricsAnalyzer:
-    """Analisador de métricas avançadas para embeddings."""
+    """
+    🔬 Analisador Avançado de Métricas para Embeddings
+    
+    Esta classe implementa análises matemáticas profundas para avaliar a qualidade
+    dos embeddings em sistemas RAG, baseada em princípios de álgebra linear,
+    estatística e teoria da informação.
+    
+    📊 PIPELINE DE ANÁLISE:
+    1. Carregamento e validação dos dados
+    2. Análise de qualidade vetorial
+    3. Análise de distribuições estatísticas
+    4. Detecção de anomalias e outliers
+    5. Cálculo de métricas informacionais
+    6. Correlação com características textuais
+    
+    🎯 APLICAÇÕES:
+    - Diagnóstico de problemas no modelo de embedding
+    - Otimização de hiperparâmetros
+    - Validação da qualidade dos dados
+    - Monitoramento de performance do sistema
+    """
     
     def __init__(self):
+        """
+        🚀 Inicializa o analisador e carrega os dados do ChromaDB.
+        
+        📋 PROCESSO:
+        1. Conecta ao vectorstore (ChromaDB)
+        2. Extrai embeddings, documentos e metadados
+        3. Converte para arrays NumPy para análise matemática
+        4. Valida integridade dos dados
+        
+        ⚠️ VALIDAÇÕES:
+        - Consistência entre número de embeddings e documentos
+        - Verificação de dimensionalidade
+        - Detecção de valores NaN ou infinitos
+        """
         print("📊 Carregando dados para análise avançada...")
         self.vect = build_or_load_vectorstore()
         self.data = self.vect.get(include=["embeddings", "documents", "metadatas"])
@@ -31,111 +100,236 @@ class AdvancedMetricsAnalyzer:
         print(f"✅ Carregados {len(self.documents)} chunks com embeddings de {self.embeddings.shape[1]} dimensões")
     
     def analyze_embedding_quality(self) -> Dict[str, Any]:
-        """Analisa qualidade dos embeddings através de métricas matemáticas."""
+        """
+        🔍 Análise Matemática da Qualidade dos Embeddings
+        
+        Esta função implementa uma bateria de testes matemáticos para avaliar
+        se os embeddings seguem as melhores práticas e padrões esperados.
+        
+        📐 CONCEITOS MATEMÁTICOS:
+        
+        1. NORMALIZAÇÃO VETORIAL:
+           - Fórmula: ||v|| = √(v₁² + v₂² + ... + vₙ²)
+           - Ideal: ||v|| = 1.0 para todos os vetores
+           - Por que: Normalização garante que similaridade cosseno funcione corretamente
+           - Problema: Vetores não-normalizados podem causar viés na busca
+        
+        2. CENTRALIZAÇÃO:
+           - Fórmula: μ = (1/n) × Σvᵢ
+           - Ideal: μ ≈ 0 (vetor médio próximo da origem)
+           - Por que: Evita viés direccional sistemático
+           - Problema: Média muito alta indica viés no modelo
+        
+        3. ANÁLISE DE VARIÂNCIA POR DIMENSÃO:
+           - Fórmula: σ² = (1/n) × Σ(vᵢ - μ)²
+           - Interpretação:
+             * Baixa variância (σ² < 0.01): Dimensão "morta", pouco informativa
+             * Alta variância (σ² > 0.1): Dimensão muito ativa, pode dominar
+           - Ideal: Variância balanceada entre dimensões
+        
+        4. ANÁLISE DE CORRELAÇÃO:
+           - Fórmula: r = Σ((xᵢ-μₓ)(yᵢ-μᵧ)) / √(Σ(xᵢ-μₓ)² × Σ(yᵢ-μᵧ)²)
+           - Interpretação:
+             * |r| > 0.8: Dimensões altamente correlacionadas (redundantes)
+             * |r| < 0.2: Dimensões independentes (ideal)
+           - Problema: Muitas correlações altas = ineficiência do espaço vetorial
+        
+        5. ANÁLISE DE DISTRIBUIÇÃO ESTATÍSTICA:
+           - Skewness (Assimetria): Mede simetria da distribuição
+             * Valor = 0: Distribuição simétrica (ideal)
+             * Valor > 0: Cauda à direita (valores altos raros)
+             * Valor < 0: Cauda à esquerda (valores baixos raros)
+           - Kurtosis (Curtose): Mede "peso" das caudas
+             * Valor = 0: Distribuição normal
+             * Valor > 0: Caudas pesadas (muitos outliers)
+             * Valor < 0: Caudas leves (poucos outliers)
+        
+        🎯 VALORES DE REFERÊNCIA:
+        - Norma média: 1.0 ± 0.01 (normalizado)
+        - Média geral: próxima de 0
+        - Correlações altas: <10% das dimensões
+        - Skewness: [-0.5, 0.5] (razoavelmente simétrico)
+        - Kurtosis: [-1, 1] (próximo do normal)
+        
+        Returns:
+            Dict contendo métricas detalhadas de qualidade
+        """
         print("\n🔍 Analisando qualidade dos embeddings...")
         
-        # Normalização - embeddings devem estar normalizados
+        # 1. ANÁLISE DE NORMALIZAÇÃO
+        # Calcular norma L2 de cada vetor embedding
         norms = np.linalg.norm(self.embeddings, axis=1)
         
-        # Centralização
+        # 2. ANÁLISE DE CENTRALIZAÇÃO
+        # Calcular vetor médio (deveria estar próximo da origem)
         mean_embedding = np.mean(self.embeddings, axis=0)
         centered_embeddings = self.embeddings - mean_embedding
         
-        # Distribuição por dimensão
+        # 3. ANÁLISE DE VARIÂNCIA POR DIMENSÃO
+        # Calcular estatísticas para cada dimensão do embedding
         dim_means = np.mean(self.embeddings, axis=0)
         dim_stds = np.std(self.embeddings, axis=0)
         
-        # Correlação entre dimensões
+        # 4. ANÁLISE DE CORRELAÇÃO ENTRE DIMENSÕES
+        # Detectar redundâncias no espaço vetorial
         dim_correlations = np.corrcoef(self.embeddings.T)
-        high_correlations = np.sum(np.abs(dim_correlations) > 0.8) - len(dim_correlations)  # Remove diagonal
+        # Contar correlações altas (excluindo diagonal)
+        high_correlations = np.sum(np.abs(dim_correlations) > 0.8) - len(dim_correlations)
         
-        # Análise de distribuição
+        # 5. ANÁLISE DE DISTRIBUIÇÃO ESTATÍSTICA
+        # Analisar toda a distribuição como um conjunto
         embedding_flat = self.embeddings.flatten()
         
+        # 📊 COMPILAR RESULTADOS COM INTERPRETAÇÕES
         return {
             'normalization': {
-                'mean_norm': float(np.mean(norms)),
-                'std_norm': float(np.std(norms)),
-                'min_norm': float(np.min(norms)),
-                'max_norm': float(np.max(norms)),
-                'is_normalized': bool(np.allclose(norms, 1.0, atol=1e-6))
+                'mean_norm': float(np.mean(norms)),                    # Norma média (ideal: 1.0)
+                'std_norm': float(np.std(norms)),                     # Variação das normas (ideal: baixa)
+                'min_norm': float(np.min(norms)),                     # Norma mínima
+                'max_norm': float(np.max(norms)),                     # Norma máxima
+                'is_normalized': bool(np.allclose(norms, 1.0, atol=1e-6))  # Se todos os vetores estão normalizados
             },
             'centralization': {
-                'mean_value': float(np.mean(embedding_flat)),
-                'is_centered': bool(abs(np.mean(embedding_flat)) < 1e-6)
+                'mean_value': float(np.mean(embedding_flat)),         # Média global (ideal: ~0)
+                'is_centered': bool(abs(np.mean(embedding_flat)) < 1e-6)  # Se está centrado
             },
             'dimension_analysis': {
-                'mean_variance_across_dims': float(np.mean(dim_stds**2)),
-                'min_variance': float(np.min(dim_stds**2)),
-                'max_variance': float(np.max(dim_stds**2)),
-                'dimensions_with_low_variance': int(np.sum(dim_stds < 0.01)),
-                'dimensions_with_high_variance': int(np.sum(dim_stds > 0.1))
+                'mean_variance_across_dims': float(np.mean(dim_stds**2)),      # Variância média entre dimensões
+                'min_variance': float(np.min(dim_stds**2)),                    # Menor variância
+                'max_variance': float(np.max(dim_stds**2)),                    # Maior variância
+                'dimensions_with_low_variance': int(np.sum(dim_stds < 0.01)),  # Dimensões "mortas"
+                'dimensions_with_high_variance': int(np.sum(dim_stds > 0.1))   # Dimensões muito ativas
             },
             'correlation_analysis': {
-                'high_correlation_pairs': int(high_correlations // 2),  # Dividir por 2 pois matriz é simétrica
-                'max_correlation': float(np.max(np.abs(dim_correlations - np.eye(len(dim_correlations))))),
-                'mean_abs_correlation': float(np.mean(np.abs(dim_correlations - np.eye(len(dim_correlations)))))
+                'high_correlation_pairs': int(high_correlations // 2),  # Pares redundantes (÷2 pois matriz é simétrica)
+                'max_correlation': float(np.max(np.abs(dim_correlations - np.eye(len(dim_correlations))))),  # Correlação máxima
+                'mean_abs_correlation': float(np.mean(np.abs(dim_correlations - np.eye(len(dim_correlations)))))  # Correlação média
             },
             'distribution': {
-                'skewness': float(stats.skew(embedding_flat)),
-                'kurtosis': float(stats.kurtosis(embedding_flat)),
-                'is_normal': bool(stats.jarque_bera(embedding_flat)[1] > 0.05)  # p-value > 0.05
+                'skewness': float(stats.skew(embedding_flat)),        # Assimetria (-1 a 1 ideal)
+                'kurtosis': float(stats.kurtosis(embedding_flat)),    # Curtose (-1 a 1 ideal)
+                'is_normal': bool(stats.jarque_bera(embedding_flat)[1] > 0.05)  # Se segue distribuição normal
             }
         }
     
     def analyze_distance_distributions(self) -> Dict[str, Any]:
-        """Analisa distribuições de distâncias entre embeddings."""
+        """
+        📏 Análise das Distribuições de Distâncias entre Embeddings
+        
+        Esta função analisa como os vetores estão distribuídos no espaço n-dimensional,
+        calculando diferentes métricas de distância para entender a geometria dos dados.
+        
+        🎯 IMPORTÂNCIA:
+        A distribuição das distâncias revela:
+        - Se os documentos estão bem separados (boa discriminação)
+        - Se existem clusters naturais nos dados
+        - Se há outliers ou anomalias na distribuição
+        - Qual métrica de distância é mais adequada para o dataset
+        
+        📐 MÉTRICAS DE DISTÂNCIA IMPLEMENTADAS:
+        
+        1. DISTÂNCIA EUCLIDIANA:
+           - Fórmula: d(a,b) = √(Σ(aᵢ - bᵢ)²)
+           - Interpretação: Distância "real" no espaço vetorial
+           - Características:
+             * Sensível à magnitude dos vetores
+             * Boa para detectar similaridade absoluta
+             * Pode ser dominada por poucas dimensões com valores altos
+           - Valores típicos: 0.5 a 2.0 para embeddings normalizados
+        
+        2. DISTÂNCIA COSSENO:
+           - Fórmula: d(a,b) = 1 - (a·b)/(||a|| × ||b||)
+           - Interpretação: Mede diferença de direção (ignora magnitude)
+           - Características:
+             * Independe da magnitude dos vetores
+             * Ideal para similaridade semântica
+             * Valores entre 0 (idênticos) e 2 (opostos)
+           - Valores típicos: 0.1 a 1.0 para documentos relacionados
+        
+        3. DISTÂNCIA MANHATTAN (L1):
+           - Fórmula: d(a,b) = Σ|aᵢ - bᵢ|
+           - Interpretação: Soma das diferenças absolutas
+           - Características:
+             * Menos sensível a outliers que Euclidiana
+             * Útil quando dimensões têm importâncias similares
+             * Computacionalmente eficiente
+        
+        📊 ANÁLISE ESTATÍSTICA:
+        Para cada métrica, calculamos:
+        - Média: Distância típica entre documentos
+        - Mediana: Valor central da distribuição
+        - Desvio padrão: Variabilidade das distâncias
+        - Percentis (25%, 75%, 95%): Forma da distribuição
+        - Min/Max: Extremos da distribuição
+        
+        🎯 INTERPRETAÇÃO DOS RESULTADOS:
+        
+        DISTRIBUIÇÃO SAUDÁVEL:
+        - Média moderada (não muito alta nem baixa)
+        - Desvio padrão razoável (indica diversidade)
+        - P95 não muito maior que média (poucos outliers)
+        - Diferença clara entre min e max (boa separação)
+        
+        PROBLEMAS POSSÍVEIS:
+        - Média muito baixa: Documentos muito similares (falta diversidade)
+        - Média muito alta: Documentos muito diferentes (possível ruído)
+        - Desvio padrão muito baixo: Distribuição muito uniforme
+        - P95 >> média: Muitos outliers na distribuição
+        
+        Returns:
+            Dict contendo estatísticas detalhadas para cada métrica de distância
+        """
         print("\n📏 Analisando distribuições de distâncias...")
         
-        # Calcular distâncias par a par
+        # ⚠️ AVISO: Cálculo de distâncias par a par pode ser custoso para muitos documentos
+        # Complexidade: O(n²) onde n = número de documentos
         print("   Calculando distâncias (pode demorar para muitos chunks)...")
         
-        # Euclidiana
-        euclidean_distances = pdist(self.embeddings, metric='euclidean')
+        # 📐 CALCULAR DISTÂNCIAS PAR A PAR
+        try:
+            # Distância Euclidiana: Distância "real" no espaço
+            euclidean_distances = pdist(self.embeddings, metric='euclidean')
+            
+            # Distância Cosseno: Focada na direção dos vetores
+            cosine_distances = pdist(self.embeddings, metric='cosine')
+            
+            # Distância Manhattan: Soma das diferenças absolutas
+            # Nota: Usando cityblock que é equivalente a manhattan no scipy
+            manhattan_distances = pdist(self.embeddings, metric='cityblock')
+            
+        except Exception as e:
+            print(f"   ⚠️ Erro no cálculo de distâncias: {e}")
+            return {'error': str(e)}
         
-        # Cosseno
-        cosine_distances = pdist(self.embeddings, metric='cosine')
-        
-        # Manhattan
-        manhattan_distances = pdist(self.embeddings, metric='manhattan')
-        
-        return {
-            'euclidean': {
-                'mean': float(np.mean(euclidean_distances)),
-                'std': float(np.std(euclidean_distances)),
-                'min': float(np.min(euclidean_distances)),
-                'max': float(np.max(euclidean_distances)),
-                'median': float(np.median(euclidean_distances)),
+        def _analyze_distance_array(distances: np.ndarray, name: str) -> Dict[str, float]:
+            """
+            🔍 Função auxiliar para analisar array de distâncias
+            
+            Args:
+                distances: Array de distâncias calculadas
+                name: Nome da métrica para debug
+            
+            Returns:
+                Dict com estatísticas completas
+            """
+            return {
+                'mean': float(np.mean(distances)),                    # Distância média
+                'std': float(np.std(distances)),                     # Variabilidade
+                'min': float(np.min(distances)),                     # Menor distância
+                'max': float(np.max(distances)),                     # Maior distância
+                'median': float(np.median(distances)),               # Valor central
                 'percentiles': {
-                    '25': float(np.percentile(euclidean_distances, 25)),
-                    '75': float(np.percentile(euclidean_distances, 75)),
-                    '95': float(np.percentile(euclidean_distances, 95))
-                }
-            },
-            'cosine': {
-                'mean': float(np.mean(cosine_distances)),
-                'std': float(np.std(cosine_distances)),
-                'min': float(np.min(cosine_distances)),
-                'max': float(np.max(cosine_distances)),
-                'median': float(np.median(cosine_distances)),
-                'percentiles': {
-                    '25': float(np.percentile(cosine_distances, 25)),
-                    '75': float(np.percentile(cosine_distances, 75)),
-                    '95': float(np.percentile(cosine_distances, 95))
-                }
-            },
-            'manhattan': {
-                'mean': float(np.mean(manhattan_distances)),
-                'std': float(np.std(manhattan_distances)),
-                'min': float(np.min(manhattan_distances)),
-                'max': float(np.max(manhattan_distances)),
-                'median': float(np.median(manhattan_distances)),
-                'percentiles': {
-                    '25': float(np.percentile(manhattan_distances, 25)),
-                    '75': float(np.percentile(manhattan_distances, 75)),
-                    '95': float(np.percentile(manhattan_distances, 95))
+                    '25': float(np.percentile(distances, 25)),       # Primeiro quartil
+                    '75': float(np.percentile(distances, 75)),       # Terceiro quartil
+                    '95': float(np.percentile(distances, 95))        # Percentil 95 (outliers)
                 }
             }
+        
+        # 📊 COMPILAR RESULTADOS
+        return {
+            'euclidean': _analyze_distance_array(euclidean_distances, 'Euclidiana'),
+            'cosine': _analyze_distance_array(cosine_distances, 'Cosseno'),
+            'manhattan': _analyze_distance_array(manhattan_distances, 'Manhattan')
         }
     
     def analyze_document_characteristics(self) -> Dict[str, Any]:

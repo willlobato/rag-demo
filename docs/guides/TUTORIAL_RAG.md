@@ -1,17 +1,32 @@
 # 🚀 Tutorial Completo: RAG com LangChain, ChromaDB e Ollama
 
-## 📚 Índice
+> **Sistema Educacional RAG Demo**
+> 
+> 📚 **[Índice da Documentação](../organization/INDICE_DOCUMENTACAO.md)** | **[Guia de Navegação](GUIA_NAVEGACAO.md)** | **[Classificação de Scripts](../organization/CLASSIFICACAO_SCRIPTS.md)**
 
-1. [O que é RAG?](#o-que-é-rag)
-2. [Arquitetura do Sistema](#arquitetura-do-sistema)
-3. [Componentes Técnicos](#componentes-técnicos)
-4. [Configuração e Instalação](#configuração-e-instalação)
-5. [Scripts Básicos](#scripts-básicos)
-6. [Scripts Avançados](#scripts-avançados)
-7. [Análise e Avaliação](#análise-e-avaliação)
-8. [Casos de Uso Práticos](#casos-de-uso-práticos)
-9. [Otimização e Troubleshooting](#otimização-e-troubleshooting)
-10. [Próximos Passos](#próximos-passos)
+Este tutorial fornece uma base teórica sólida para o sistema educacional RAG, preparando você para usar os scripts práticos de forma efetiva.
+
+---
+
+## 📚 **NAVEGAÇÃO RÁPIDA**
+
+### **📖 Fundamentos Teóricos**
+1. **[O que é RAG?](#o-que-é-rag)** - Conceitos fundamentais
+2. **[Arquitetura do Sistema](#arquitetura-do-sistema)** - Design técnico
+3. **[Componentes Técnicos](#componentes-técnicos)** - Tecnologias utilizadas
+
+### **🛠️ Implementação Prática**
+4. **[Configuração e Instalação](#configuração-e-instalação)** - Setup inicial
+5. **[Scripts Básicos](#scripts-básicos)** - **[Ver Scripts Nível Básico](CLASSIFICACAO_SCRIPTS.md#-nível-básico---fundamentos-essenciais)**
+6. **[Scripts Avançados](#scripts-avançados)** - **[Ver Scripts Nível Avançado](CLASSIFICACAO_SCRIPTS.md#-nível-avançado---pesquisa-e-experimentação)**
+
+### **📊 Análise e Otimização**
+7. **[Análise e Avaliação](#análise-e-avaliação)** - **[Ver Exemplos Práticos](EXEMPLOS_USO_SCRIPTS.md)**
+8. **[Casos de Uso Práticos](#casos-de-uso-práticos)** - **[Ver Documentação Avançada](../reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)**
+9. **[Otimização e Troubleshooting](#otimização-e-troubleshooting)** - **[Ver Guia de Navegação](GUIA_NAVEGACAO.md#navegação-por-problema-específico)**
+
+### **🚀 Próximos Passos**
+10. **[Progressão de Aprendizagem](#próximos-passos)** - **[Ver Fluxo Completo](INDICE_DOCUMENTACAO.md#-fluxo-de-aprendizagem-recomendado)**
 
 ---
 

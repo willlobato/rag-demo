@@ -1,6 +1,59 @@
 #!/usr/bin/env python3
-# evaluate_rag.py
-# Script para avaliação de qualidade do sistema RAG
+"""
+⚖️ EVALUATE RAG - AVALIAÇÃO CIENTÍFICA END-TO-END DO SISTEMA RAG
+
+Este script implementa uma avaliação abrangente e científica da qualidade do sistema RAG,
+medindo performance desde a recuperação de documentos até a geração de respostas finais.
+
+📚 FUNDAMENTAÇÃO TEÓRICA:
+A avaliação de sistemas RAG requer métricas que capturem tanto a qualidade da recuperação
+(quão bem os documentos relevantes são encontrados) quanto a qualidade da geração
+(quão bem a resposta final é construída a partir do contexto).
+
+🎯 OBJETIVOS:
+1. Medir qualidade da recuperação com métricas científicas
+2. Avaliar relevância semântica dos documentos recuperados
+3. Analisar fidelidade das respostas geradas (evitar alucinações)
+4. Medir performance temporal (latência do sistema)
+5. Detectar degradação de qualidade ao longo do tempo
+
+🔍 MÉTRICAS IMPLEMENTADAS:
+
+📊 MÉTRICAS DE RECUPERAÇÃO:
+- Similaridade Cosseno: Relevância matemática dos chunks
+- Diversidade dos Resultados: Evitar redundância
+- Coverage Score: Cobertura da informação necessária
+- Ranking Quality: Qualidade da ordenação dos resultados
+
+📝 MÉTRICAS DE GERAÇÃO:
+- Faithfulness: Fidelidade ao contexto recuperado
+- Answerability: Se a pergunta pode ser respondida
+- Completeness: Completude da resposta
+- Coherence: Coerência e fluência do texto
+
+⏱️ MÉTRICAS DE PERFORMANCE:
+- Retrieval Time: Tempo de busca vetorial
+- Generation Time: Tempo de geração de texto
+- Total Response Time: Tempo total end-to-end
+- Throughput: Queries por segundo
+
+🔬 METODOLOGIA CIENTÍFICA:
+- Baseline Comparisons: Comparação com resultados anteriores
+- Statistical Significance: Análise estatística das métricas
+- Confidence Intervals: Intervalos de confiança
+- A/B Testing Framework: Comparação controlada de versões
+
+📖 CONCEITOS AVALIADOS:
+- Information Retrieval: Precision, Recall, F1, NDCG
+- Natural Language Generation: BLEU, ROUGE, BERTScore
+- Semantic Similarity: Embedding-based similarity
+- Response Quality: Human-like evaluation metrics
+
+🚀 USO EDUCACIONAL:
+Este script serve como exemplo prático de como implementar avaliações
+rigorosas para sistemas de IA, incluindo metodologias de pesquisa
+e métricas reconhecidas academicamente.
+"""
 
 import sys
 import json

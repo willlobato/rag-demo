@@ -177,3 +177,6 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+
+evaluation_results.json
+similarity_heatmap.png

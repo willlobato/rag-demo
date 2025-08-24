@@ -1,6 +1,222 @@
 #!/usr/bin/env python3
-# experiment.py
-# Script para experimentação com diferentes configurações RAG
+"""
+🧪 EXPERIMENT FRAMEWORK - Laboratório de Experimentação Científica para RAG
+
+Framework avançado para experimentação controlada e científica com sistemas RAG,
+implementando metodologias rigorosas de pesquisa para otimização de hiperparâmetros,
+testes A/B e validação estatística de diferentes configurações.
+
+📚 FUNDAMENTAÇÃO CIENTÍFICA:
+
+Este framework aplica princípios de pesquisa experimental para sistemas de IA,
+combinando metodologias de ciência da computação, estatística experimental e
+engenharia de sistemas para criar um ambiente de experimentação controlado
+e reproduzível para sistemas RAG.
+
+🎯 METODOLOGIA EXPERIMENTAL:
+
+O framework implementa uma abordagem científica rigorosa baseada em:
+- Design experimental controlado com variáveis isoladas
+- Medição quantitativa com métricas estatisticamente válidas  
+- Reprodutibilidade através de seeds fixos e configurações determinísticas
+- Validação estatística usando testes de hipótese e intervalos de confiança
+- Análise comparativa usando técnicas de benchmarking sistemático
+
+🔬 TIPOS DE EXPERIMENTOS CIENTÍFICOS:
+
+1️⃣ CHUNK SIZE OPTIMIZATION EXPERIMENTS:
+   📝 OBJETIVO: Determinar tamanho ótimo de chunks via análise empírica
+   
+   VARIÁVEIS INDEPENDENTES:
+   - Tamanhos testados: 200, 500, 1000, 1500, 2000 caracteres
+   - Estratégia de chunking: Fixa vs semântica vs híbrida
+   - Overlap ratio: 0%, 10%, 20%, 30%
+   
+   MÉTRICAS DEPENDENTES:
+   - Precision@K: Proporção de chunks relevantes recuperados
+   - Recall@K: Cobertura dos chunks relevantes disponíveis
+   - Response Time: Latência média de processamento
+   - Context Coherence: Medida de coesão semântica do contexto
+   - Information Density: Densidade informacional por token
+   
+   📐 HIPÓTESES TESTADAS:
+   H₁: Chunks maiores fornecem mais contexto mas reduzem precisão
+   H₂: Chunks menores aumentam precisão mas podem fragmentar informação
+   H₃: Existe um tamanho ótimo que maximiza F1-score para cada domínio
+   
+   🧮 ANÁLISE ESTATÍSTICA:
+   - ANOVA para comparação múltipla de tamanhos
+   - Post-hoc Tukey HSD para pairwise comparisons
+   - Correlação de Pearson entre tamanho e métricas de qualidade
+
+2️⃣ K-VALUE RETRIEVAL OPTIMIZATION:
+   📝 OBJETIVO: Otimizar número de documentos recuperados
+   
+   DESIGN EXPERIMENTAL:
+   - Valores K testados: 1, 3, 5, 10, 15, 20, 30
+   - Métricas de avaliação: Precision@K, Recall@K, NDCG@K
+   - Análise de trade-offs: Qualidade vs tempo de processamento
+   
+   📊 ANÁLISE DE PERFORMANCE:
+   - Curve fitting para encontrar K ótimo
+   - Elbow method para detectar ponto de diminishing returns
+   - ROC analysis para threshold optimization
+   
+   🎯 OTIMIZAÇÃO MULTI-OBJETIVO:
+   - Pareto frontier analysis para K vs tempo vs qualidade
+   - Weighted scoring function para diferentes casos de uso
+   - Sensitivity analysis para robustez da escolha de K
+
+3️⃣ EMBEDDING MODEL COMPARISON:
+   📝 OBJETIVO: Avaliação comparativa sistemática de modelos
+   
+   MODELOS AVALIADOS:
+   - sentence-transformers/all-MiniLM-L6-v2 (384D)
+   - sentence-transformers/all-mpnet-base-v2 (768D)  
+   - nomic-ai/nomic-embed-text-v1.5 (768D)
+   - BAAI/bge-large-en-v1.5 (1024D)
+   
+   DIMENSÕES DE COMPARAÇÃO:
+   - Retrieval Quality: mAP, NDCG, MRR
+   - Computational Efficiency: Embedding time, memory usage
+   - Domain Adaptation: Performance em diferentes tipos de conteúdo
+   - Multilingual Capability: Suporte a múltiplas linguagens
+   
+   📈 MÉTRICAS AVANÇADAS:
+   - Embedding Space Quality: Isotropy, dimensionality analysis
+   - Semantic Preservation: Cosine similarity distribution
+   - Cluster Coherence: Silhouette score, Davies-Bouldin index
+
+4️⃣ A/B TESTING FRAMEWORK:
+   📝 OBJETIVO: Comparação estatisticamente rigorosa de configurações
+   
+   METODOLOGIA:
+   - Randomized Controlled Trial (RCT) design
+   - Stratified sampling para balanceamento de grupos
+   - Power analysis para tamanho amostral adequado
+   - Blinding quando aplicável (automated evaluation)
+   
+   📊 ANÁLISE ESTATÍSTICA:
+   - Student's t-test para comparação de médias
+   - Mann-Whitney U test para distribuições não-normais
+   - Chi-square test para variáveis categóricas
+   - Bootstrap confidence intervals para robustez
+   
+   🎯 VALIDAÇÃO:
+   - Cross-validation para generalização
+   - Effect size calculation (Cohen's d)
+   - Multiple testing correction (Bonferroni)
+   - Practical significance assessment
+
+5️⃣ OVERLAP STRATEGY EXPERIMENTS:
+   📝 OBJETIVO: Otimizar estratégias de sobreposição entre chunks
+   
+   CONFIGURAÇÕES TESTADAS:
+   - Fixed overlap: 0%, 10%, 20%, 30%, 50%
+   - Semantic overlap: Baseado em similaridade semântica
+   - Sentence boundary: Preservação de fronteiras de sentença
+   - Paragraph boundary: Preservação de fronteiras de parágrafo
+   
+   MÉTRICAS ESPECÍFICAS:
+   - Information Redundancy: Medida de duplicação informacional
+   - Context Continuity: Fluidez semântica entre chunks
+   - Boundary Preservation: Preservação de unidades semânticas
+
+📊 FRAMEWORK DE MÉTRICAS CIENTÍFICAS:
+
+RETRIEVAL METRICS:
+- Mean Average Precision (mAP): Precisão média ponderada por posição
+- Normalized Discounted Cumulative Gain (NDCG): Relevância com desconto posicional
+- Mean Reciprocal Rank (MRR): Posição média do primeiro resultado relevante
+- Recall@K: Cobertura dos documentos relevantes nos top-K
+- Precision@K: Proporção de documentos relevantes nos top-K
+
+GENERATION METRICS:
+- BLEU Score: Precisão de n-gramas com penalização de brevidade
+- ROUGE-L: Longest Common Subsequence baseado em F-measure
+- BERTScore: Similaridade semântica usando embeddings BERT
+- METEOR: Alinhamento com sinônimos e stemming
+- Human Evaluation Scores: Relevância, fluência, factualidade
+
+EFFICIENCY METRICS:
+- Response Latency: Tempo total de processamento
+- Throughput: Queries processadas por segundo
+- Memory Usage: Pico de utilização de memória
+- CPU Utilization: Utilização média de processador
+- Storage Requirements: Espaço necessário para índices
+
+SYSTEM METRICS:
+- Index Build Time: Tempo para construção do índice
+- Query Processing Time: Tempo de processamento da query
+- Retrieval Time: Tempo para busca de documentos
+- Generation Time: Tempo para geração da resposta
+- End-to-End Latency: Latência total do sistema
+
+🎛️ CONFIGURAÇÕES EXPERIMENTAIS:
+
+EXPERIMENTAL VARIABLES:
+- Chunk size: 200-2000 characters (step: 200)
+- Overlap percentage: 0%-50% (step: 10%)
+- Number of retrievals (K): 1-30 (exponential scale)
+- Embedding model: Lista de modelos pré-definidos
+- Similarity threshold: 0.0-1.0 (step: 0.1)
+
+CONTROL VARIABLES:
+- Random seed: Fixado para reprodutibilidade
+- Dataset splits: Train/validation/test consistentes
+- Evaluation queries: Conjunto padronizado de perguntas
+- Hardware configuration: Especificações fixas de teste
+- Software versions: Versões específicas de dependências
+
+🧪 PROCEDIMENTOS EXPERIMENTAIS:
+
+SETUP PHASE:
+1. Environment initialization: Configuração determinística
+2. Data preparation: Preprocessamento padronizado
+3. Baseline establishment: Métricas de referência
+4. Resource allocation: Configuração de recursos computacionais
+
+EXECUTION PHASE:
+1. Parameter grid generation: Combinações sistemáticas
+2. Controlled execution: Isolamento de variáveis
+3. Metrics collection: Logging padronizado
+4. Progress monitoring: Acompanhamento em tempo real
+
+ANALYSIS PHASE:
+1. Statistical testing: Testes de hipótese apropriados
+2. Effect size calculation: Magnitude prática das diferenças
+3. Confidence intervals: Intervalos de confiança para robustez
+4. Visualization: Gráficos e tabelas explanatórias
+
+VALIDATION PHASE:
+1. Cross-validation: Validação cruzada k-fold
+2. Hold-out testing: Teste em conjunto independente
+3. Sensitivity analysis: Robustez a mudanças de parâmetros
+4. Reproducibility check: Verificação de reprodutibilidade
+
+� OUTPUTS E RELATÓRIOS:
+
+QUANTITATIVE RESULTS:
+- Performance tables: Métricas organizadas por configuração
+- Statistical summaries: Médias, desvios, intervalos de confiança
+- Ranking tables: Ordenação por performance
+- Significance tests: P-values e effect sizes
+
+VISUALIZATIONS:
+- Performance curves: Métricas vs parâmetros
+- Scatter plots: Correlações entre variáveis
+- Box plots: Distribuições de performance
+- Heatmaps: Interações entre parâmetros
+
+ANALYTICAL REPORTS:
+- Best configuration recommendations: Configurações ótimas
+- Trade-off analysis: Análise de compromissos
+- Sensitivity analysis: Robustez das recomendações
+- Practical guidelines: Diretrizes para implementação
+
+🚀 VALOR EDUCACIONAL:
+
+Este framework demonstra:
 
 import sys
 import json
