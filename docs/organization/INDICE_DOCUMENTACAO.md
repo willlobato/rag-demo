@@ -18,16 +18,16 @@
 - **[`utils.py`](rag_demo/utils.py)** - 🛠️ Funções utilitárias e manipulação de documentos
 
 ### 📖 Documentação Principal
-- **[README.md](README.md)** - Introdução geral e setup inicial
-- **[TUTORIAL_RAG.md](TUTORIAL_RAG.md)** - Guia completo sobre conceitos RAG
-- **[STRUCTURE_PROPOSAL.md](STRUCTURE_PROPOSAL.md)** - Proposta de estrutura do projeto
+- **[README.md](../../README.md)** - Introdução geral e setup inicial
+- **[TUTORIAL_RAG.md](../guides/TUTORIAL_RAG.md)** - Guia completo sobre conceitos RAG
+- **[STRUCTURE_PROPOSAL.md](../reference/STRUCTURE_PROPOSAL.md)** - Proposta de estrutura do projeto
 
 ### 🎓 Sistema Educacional
 - **[RESUMO_SISTEMA_EDUCACIONAL.md](RESUMO_SISTEMA_EDUCACIONAL.md)** - Visão geral do sistema educacional
-- **[GLOSSARIO_CONCEITOS.md](GLOSSARIO_CONCEITOS.md)** - Dicionário de termos técnicos
+- **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Dicionário de termos técnicos
 
 ### 🗺️ Navegação e Organização
-- **[GUIA_NAVEGACAO.md](GUIA_NAVEGACAO.md)** - Fluxos de navegação detalhados
+- **[GUIA_NAVEGACAO.md](../guides/GUIA_NAVEGACAO.md)** - Fluxos de navegação detalhados
 - **[CLASSIFICACAO_SCRIPTS.md](CLASSIFICACAO_SCRIPTS.md)** - Níveis de complexidade dos scripts
 - **[MAPA_VISUAL.md](MAPA_VISUAL.md)** - Representação visual das interconexões
 
@@ -47,7 +47,7 @@
 | **[search_docs.py](scripts/search_docs.py)** | Busca semântica | Similaridade, Ranking, Filtragem |
 
 #### Documentação de Apoio
-- **[EXEMPLOS_USO_SCRIPTS.md](EXEMPLOS_USO_SCRIPTS.md)** - Exemplos práticos de uso
+- **[EXEMPLOS_USO_SCRIPTS.md](../guides/EXEMPLOS_USO_SCRIPTS.md)** - Exemplos práticos de uso
 
 ---
 
@@ -76,16 +76,16 @@
 | **[experiment.py](scripts/experiment.py)** | Framework experimental | A/B Testing, Otimização, Reprodutibilidade |
 
 #### Documentação Avançada
-- **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Detalhes técnicos avançados
+- **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](../reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Detalhes técnicos avançados
 
 ---
 
 ## 🔄 **FLUXO DE APRENDIZAGEM RECOMENDADO**
 
 ### 📚 **Fase 1: Fundamentação Teórica** (30-60 min)
-1. **[README.md](README.md)** - Setup e visão geral
-2. **[TUTORIAL_RAG.md](TUTORIAL_RAG.md)** - Conceitos fundamentais
-3. **[GLOSSARIO_CONCEITOS.md](GLOSSARIO_CONCEITOS.md)** - Vocabulário técnico
+1. **[README.md](../../README.md)** - Setup e visão geral
+2. **[TUTORIAL_RAG.md](../guides/TUTORIAL_RAG.md)** - Conceitos fundamentais
+3. **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Vocabulário técnico
 
 ### 🛠️ **Fase 2: Prática Básica** (1-2 horas)
 1. **[run_ingest.py](scripts/run_ingest.py)** - Primeira ingestão de dados
@@ -187,7 +187,7 @@ graph TD
 ## 📞 **SUPORTE E RECURSOS ADICIONAIS**
 
 ### Documentação de Referência
-- **[GLOSSARIO_CONCEITOS.md](GLOSSARIO_CONCEITOS.md)** - Para termos técnicos
+- **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Para termos técnicos
 - **[EXEMPLOS_USO_SCRIPTS.md](EXEMPLOS_USO_SCRIPTS.md)** - Para exemplos práticos
 - **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Para detalhes técnicos
 

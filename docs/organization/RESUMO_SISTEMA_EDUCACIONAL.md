@@ -136,13 +136,13 @@
 ## 🚀 **Como Usar Este Sistema Educacional**
 
 ### 👶 **Para Iniciantes Absolutos**
-1. **Comece com**: [TUTORIAL_RAG.md](TUTORIAL_RAG.md) - Seção "O que é RAG?"
+1. **Comece com**: [TUTORIAL_RAG.md](../guides/TUTORIAL_RAG.md) - Seção "O que é RAG?"
 2. **Execute**: Scripts básicos (`run_ingest.py`, `run_query.py`)
-3. **Explore**: Conceitos no [GLOSSARIO_CONCEITOS.md](GLOSSARIO_CONCEITOS.md)
-4. **Pratique**: Exemplos simples em [EXEMPLOS_USO_SCRIPTS.md](EXEMPLOS_USO_SCRIPTS.md)
+3. **Explore**: Conceitos no [GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)
+4. **Pratique**: Exemplos simples em [EXEMPLOS_USO_SCRIPTS.md](../guides/EXEMPLOS_USO_SCRIPTS.md)
 
 ### 🎓 **Para Estudantes Intermediários**
-1. **Estude**: Conceitos matemáticos em [DOCUMENTACAO_SCRIPTS_AVANCADOS.md](DOCUMENTACAO_SCRIPTS_AVANCADOS.md)
+1. **Estude**: Conceitos matemáticos em [DOCUMENTACAO_SCRIPTS_AVANCADOS.md](../reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)
 2. **Execute**: Scripts avançados (`advanced_metrics.py`, `analyze_similarity.py`)
 3. **Analise**: Resultados usando guias de interpretação
 4. **Experimente**: Diferentes configurações com `experiment.py`

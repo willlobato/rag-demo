@@ -12,18 +12,18 @@
 
 #### **📚 DOCUMENTOS DE NAVEGAÇÃO (4 novos documentos)**
 1. **[INDICE_DOCUMENTACAO.md](INDICE_DOCUMENTACAO.md)** - Portal principal de navegação estruturada
-2. **[GUIA_NAVEGACAO.md](GUIA_NAVEGACAO.md)** - Fluxos detalhados de navegação por objetivos
+2. **[GUIA_NAVEGACAO.md](../guides/GUIA_NAVEGACAO.md)** - Fluxos detalhados de navegação por objetivos
 3. **[CLASSIFICACAO_SCRIPTS.md](CLASSIFICACAO_SCRIPTS.md)** - Organização por níveis de complexidade
 4. **[MAPA_VISUAL.md](MAPA_VISUAL.md)** - Representação visual das interconexões
 
 #### **📖 DOCUMENTOS PRINCIPAIS (atualizados)**
-1. **[README.md](README.md)** - Porta de entrada com links estruturados
-2. **[TUTORIAL_RAG.md](TUTORIAL_RAG.md)** - Base teórica com navegação integrada
+1. **[README.md](../../README.md)** - Porta de entrada com links estruturados
+2. **[TUTORIAL_RAG.md](../guides/TUTORIAL_RAG.md)** - Base teórica com navegação integrada
 
 #### **🎓 DOCUMENTOS EDUCACIONAIS (melhorados)**
-1. **[EXEMPLOS_USO_SCRIPTS.md](EXEMPLOS_USO_SCRIPTS.md)** - Casos práticos com links
-2. **[GLOSSARIO_CONCEITOS.md](GLOSSARIO_CONCEITOS.md)** - Dicionário técnico
-3. **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Detalhes técnicos
+1. **[EXEMPLOS_USO_SCRIPTS.md](../guides/EXEMPLOS_USO_SCRIPTS.md)** - Casos práticos com links
+2. **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Dicionário técnico
+3. **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](../reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Detalhes técnicos
 4. **[RESUMO_SISTEMA_EDUCACIONAL.md](RESUMO_SISTEMA_EDUCACIONAL.md)** - Visão educacional
 
 ---

@@ -235,14 +235,14 @@ GUIA_NAVEGACAO.md
 ## 🔗 **LINKS RÁPIDOS POR CATEGORIA**
 
 ### **📚 Documentação Essencial**
-- **[README.md](README.md)** - Porta de entrada
+- **[README.md](../../README.md)** - Porta de entrada
 - **[INDICE_DOCUMENTACAO.md](INDICE_DOCUMENTACAO.md)** - Navegação central
-- **[TUTORIAL_RAG.md](TUTORIAL_RAG.md)** - Base teórica
+- **[TUTORIAL_RAG.md](../guides/TUTORIAL_RAG.md)** - Base teórica
 
 ### **🎯 Organização e Estrutura**
 - **[CLASSIFICACAO_SCRIPTS.md](CLASSIFICACAO_SCRIPTS.md)** - Níveis de complexidade
-- **[GUIA_NAVEGACAO.md](GUIA_NAVEGACAO.md)** - Fluxos de navegação
-- **[EXEMPLOS_USO_SCRIPTS.md](EXEMPLOS_USO_SCRIPTS.md)** - Casos práticos
+- **[GUIA_NAVEGACAO.md](../guides/GUIA_NAVEGACAO.md)** - Fluxos de navegação
+- **[EXEMPLOS_USO_SCRIPTS.md](../guides/EXEMPLOS_USO_SCRIPTS.md)** - Casos práticos
 
 ### **💻 Scripts por Nível**
 - **[🟢 Básicos](CLASSIFICACAO_SCRIPTS.md#-nível-básico---fundamentos-essenciais)** - run_ingest.py, run_query.py, list_docs.py, search_docs.py
@@ -250,8 +250,8 @@ GUIA_NAVEGACAO.md
 - **[🔴 Avançados](CLASSIFICACAO_SCRIPTS.md#-nível-avançado---pesquisa-e-experimentação)** - advanced_metrics.py, analyze_similarity.py, analyze_retrieval.py, evaluate_rag.py, experiment.py
 
 ### **🔧 Suporte e Referência**
-- **[GLOSSARIO_CONCEITOS.md](GLOSSARIO_CONCEITOS.md)** - Dicionário técnico
-- **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Detalhes técnicos
+- **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Dicionário técnico
+- **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](../reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** - Detalhes técnicos
 
 ---
 
