@@ -82,10 +82,10 @@ Este projeto implementa um sistema RAG completo que permite **consultar document
 ├── 📚 docs/              # Documentação educacional completa
 ├── 📊 data/              # Documentos de exemplo
 │   └── sistema_completo.txt    # 📄 Texto de exemplo para demonstração
-└── �🗄️ db/               # Base de dados vetorial (ChromaDB)
+└── 🗄️ db/               # Base de dados vetorial (ChromaDB)
 ```
 
-### � **Texto de Exemplo Incluído**
+### 📄 **Texto de Exemplo Incluído**
 
 O arquivo `data/sistema_completo.txt` contém um texto de demonstração simples sobre um sistema fictício com:
 
@@ -101,7 +101,6 @@ O arquivo `data/sistema_completo.txt` contém um texto de demonstração simples
 - "Qual a arquitetura de microserviços utilizada?" 
 - "Quais são as métricas de performance do sistema?"
 - "Como funciona o sistema de monitoramento?"
-```
 
 ### 📦 **Core Package (rag_demo/)**
 - **`config.py`** - Configuração baseada em ambiente
