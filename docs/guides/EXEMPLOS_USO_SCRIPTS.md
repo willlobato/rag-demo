@@ -42,6 +42,65 @@ Este documento fornece exemplos práticos e cenários reais de uso dos scripts, 
 
 #### **Script:** **[run_ingest.py](scripts/run_ingest.py)** ([Documentação Detalhada](INDICE_DOCUMENTACAO.md#scripts-básicos))
 
+### 🔍 **Cenário 2: Busca Semântica de Documentos**
+
+**Situação**: Você quer explorar os documentos indexados sem usar o LLM, apenas para entender o que foi armazenado.
+
+#### **Script:** **[search_docs.py](scripts/search_docs.py)**
+
+**Sintaxe:**
+```bash
+python scripts/search_docs.py "TERMO_DE_BUSCA" [NÚMERO_DE_RESULTADOS]
+```
+
+**Exemplos Práticos:**
+```bash
+# Buscar por "PostgreSQL" e mostrar os 3 chunks mais similares
+python scripts/search_docs.py "PostgreSQL" 3
+
+# Buscar por "microserviços" e mostrar os 5 chunks mais similares  
+python scripts/search_docs.py "microserviços" 5
+
+# Buscar por "cache" e usar padrão (5 resultados)
+python scripts/search_docs.py "cache distribuído"
+
+# Explorar diferentes tecnologias
+python scripts/search_docs.py "Kubernetes" 2
+python scripts/search_docs.py "monitoramento" 10
+```
+
+**Parâmetros:**
+- **TERMO_DE_BUSCA** (obrigatório): O que você quer procurar
+- **NÚMERO_DE_RESULTADOS** (opcional): Quantos chunks mostrar (padrão: 5)
+
+**O que o script retorna:**
+- Lista dos chunks mais similares ao termo
+- Score de similaridade para cada chunk
+- Fonte de cada chunk (arquivo original)
+- Ordenação por relevância (menor score = mais similar)
+
+**Resultado Típico:**
+```
+🔍 Busca por: "PostgreSQL"
+📊 Encontrados 3 resultados:
+
+1. Score: 0.234 | Fonte: sistema_completo.txt
+   "O banco de dados foi migrado para PostgreSQL com replicação master-slave..."
+
+2. Score: 0.456 | Fonte: sistema_completo.txt  
+   "Implementamos microserviços usando Spring Boot e Docker containers..."
+
+3. Score: 0.678 | Fonte: sistema_completo.txt
+   "A arquitetura do sistema foi completamente redesenhada..."
+```
+
+**Quando usar:**
+- ✅ Explorar conteúdo indexado rapidamente
+- ✅ Testar qualidade da busca vetorial
+- ✅ Verificar se termos específicos foram indexados
+- ✅ Comparar relevância entre diferentes consultas
+- ✅ Debug do sistema de recuperação (sem LLM)
+
 ---
 
 ## 🔬 Cenário 1: Diagnóstico Inicial do Sistema

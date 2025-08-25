@@ -30,7 +30,7 @@ python scripts/run_query.py "Qual é a latência média das APIs?"
 # 3. Ver como dados foram divididos
 python scripts/analyze_chunks.py
 
-# 4. Buscar por tecnologia específica
+# 4. Buscar por tecnologia específica (busca os 3 chunks mais similares)
 python scripts/search_docs.py "Kubernetes" 3
 ```
 
@@ -216,8 +216,11 @@ python scripts/run_query.py "Como é feita a autenticação dos usuários?"
 python scripts/analyze_chunks.py --full
 
 # Buscar tópicos específicos sem usar LLM
-python scripts/search_docs.py "PostgreSQL" 3
-python scripts/search_docs.py "Kubernetes" 5
+python scripts/search_docs.py "PostgreSQL" 3      # Buscar "PostgreSQL" e mostrar os 3 resultados mais similares
+python scripts/search_docs.py "Kubernetes" 5      # Buscar "Kubernetes" e mostrar os 5 resultados mais similares
+
+# Sintaxe: python scripts/search_docs.py "TERMO_DE_BUSCA" NÚMERO_DE_RESULTADOS
+# O número é opcional (padrão: 5) e determina quantos chunks mais similares mostrar
 
 # Analisar embeddings e vetores
 python scripts/show_vectors.py "microserviços" true

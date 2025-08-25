@@ -808,8 +808,15 @@ python scripts/list_docs.py
 
 **O que faz:**
 ```bash
-python scripts/search_docs.py "machine learning" 5
+# Sintaxe: python scripts/search_docs.py "TERMO_DE_BUSCA" [NÚMERO_DE_RESULTADOS]
+python scripts/search_docs.py "machine learning" 5    # Mostra os 5 chunks mais similares
+python scripts/search_docs.py "PostgreSQL" 3          # Mostra os 3 chunks mais similares
+python scripts/search_docs.py "cache distribuído"     # Mostra 5 resultados (padrão)
 ```
+
+**Parâmetros:**
+- **TERMO_DE_BUSCA**: O que você quer procurar (obrigatório)
+- **NÚMERO_DE_RESULTADOS**: Quantos chunks mostrar (opcional, padrão: 5)
 
 **Processo:**
 - Busca semântica SEM usar LLM
