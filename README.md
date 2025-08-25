@@ -58,7 +58,7 @@ python scripts/search_docs.py "Kubernetes" 3
 
 ## 📋 **Sobre o Projeto**
 
-Este projeto implementa um sistema RAG completo que permite **consultar documentação técnica de forma inteligente**. Usando o exemplo prático incluído (`data/sistema_completo.txt`), você pode fazer perguntas sobre arquitetura de sistemas e receber respostas contextualizadas.
+Este projeto implementa um sistema RAG completo que permite **consultar documentos de forma inteligente**. Usando o texto de exemplo incluído (`data/sistema_completo.txt`), você pode fazer perguntas e receber respostas contextualizadas.
 
 **O sistema:**
 - **Processa documentos** (TXT, MD, PDF) e os divide em chunks otimizados
@@ -67,7 +67,7 @@ Este projeto implementa um sistema RAG completo que permite **consultar document
 - **Responde perguntas** usando o modelo `llama3` com contexto recuperado
 - **Fornece ferramentas educacionais** para aprendizagem estruturada de RAG
 
-**Exemplo de uso com nossos dados:**
+**Exemplo de uso com nosso texto de demonstração:**
 - 📊 "Qual é a latência média das APIs do sistema?"
 - 🏗️ "Como foi implementada a arquitetura de microserviços?"
 - 🔒 "Quais tecnologias foram usadas para segurança?"
@@ -81,22 +81,22 @@ Este projeto implementa um sistema RAG completo que permite **consultar document
 ├── 📂 scripts/           # Scripts de automação (12 total)
 ├── 📚 docs/              # Documentação educacional completa
 ├── 📊 data/              # Documentos de exemplo
-│   └── sistema_completo.txt    # � Exemplo prático: Sistema com microserviços
+│   └── sistema_completo.txt    # 📄 Texto de exemplo para demonstração
 └── �🗄️ db/               # Base de dados vetorial (ChromaDB)
 ```
 
-### 📊 **Exemplo Prático Incluído**
+### � **Texto de Exemplo Incluído**
 
-O arquivo `data/sistema_completo.txt` contém documentação real sobre um sistema moderno com:
+O arquivo `data/sistema_completo.txt` contém um texto de demonstração simples sobre um sistema fictício com:
 
-- **🚀 Performance:** 10k usuários simultâneos, 150ms de latência  
-- **🏗️ Arquitetura:** Microserviços com Spring Boot, Docker, Kubernetes
-- **🗄️ Dados:** PostgreSQL, Redis cache, replicação master-slave
-- **📊 Monitoramento:** Prometheus, Grafana, alertas no Slack
-- **🔒 Segurança:** JWT, OAuth2, rate limiting, ELK Stack
-- **⚙️ DevOps:** Jenkins CI/CD, deployment automatizado
+- **🚀 Performance:** Exemplo de métricas (10k usuários, 150ms latência)  
+- **🏗️ Arquitetura:** Conceitos básicos (Spring Boot, Docker, Kubernetes)
+- **🗄️ Dados:** Tecnologias comuns (PostgreSQL, Redis cache)
+- **📊 Monitoramento:** Stack típico (Prometheus, Grafana, Slack)
+- **🔒 Segurança:** Padrões básicos (JWT, OAuth2, rate limiting)
+- **⚙️ DevOps:** Ferramentas usuais (Jenkins CI/CD, deployment)
 
-**Perguntas que você pode fazer:**
+**Perguntas de exemplo que você pode testar:**
 - "Como foi otimizado o processo de login?"
 - "Qual a arquitetura de microserviços utilizada?" 
 - "Quais são as métricas de performance do sistema?"
@@ -268,9 +268,9 @@ cfg = config.get_config()
 # Ingestão
 docs = ingest.load_and_process_documents()
 
-# Consulta RAG com exemplo prático
+# Consulta RAG com texto de exemplo
 response = rag.query("Como foi otimizado o processo de login?")
-print(response)  # Resposta: "O processo de login foi otimizado usando cache distribuído..."
+print(response)  # Resposta baseada no conteúdo do texto de exemplo
 ```
 
 ### **Experimentação com Diferentes Configurações**
@@ -290,47 +290,47 @@ python scripts/analyze_chunks.py --full
 ```
 
 ### **Extensibilidade**
-- Adicione novos documentos técnicos em `data/`
+- Adicione seus próprios documentos em `data/`
 - Configure novos modelos em `config.py`
 - Desenvolva métricas específicas em `scripts/`
-- Experimente com diferentes tipos de documentação (APIs, manuais, etc.)
+- Experimente com diferentes tipos de conteúdo (APIs, manuais, documentação técnica real, etc.)
 
 ---
 
 ## 📈 **Performance e Métricas**
 
-### **Análise do Exemplo Incluído**
-Com o documento `sistema_completo.txt`, você pode testar:
+### **Análise do Texto de Exemplo**
+Com o texto `sistema_completo.txt`, você pode testar:
 
 ```bash
 # Análise de similaridade entre chunks sobre diferentes tecnologias
 python scripts/analyze_similarity.py
 
-# Avaliação da qualidade das respostas técnicas
+# Avaliação da qualidade das respostas
 python scripts/evaluate_rag.py
 
 # Experimentação com diferentes parâmetros
 python scripts/experiment.py
 ```
 
-### **Benchmarks Práticos**
+### **Testes Práticos de Demonstração**
 - **Similarity Analysis:** Compare chunks sobre "Spring Boot" vs "PostgreSQL"
 - **Retrieval Quality:** Teste perguntas sobre performance vs arquitetura
 - **Response Quality:** Avalie respostas sobre tópicos específicos (ex: segurança)
 
-### **Ferramentas de Análise Específicas**
+### **Ferramentas de Análise**
 ```bash
-# Matriz de similaridade focada em tecnologias
+# Matriz de similaridade entre conceitos do texto
 python scripts/analyze_similarity.py
 
-# Métricas de recuperação para perguntas técnicas
+# Métricas de recuperação para diferentes tipos de pergunta
 python scripts/analyze_retrieval.py  
 
-# Experimentos com diferentes tipos de consulta
+# Experimentos com variações de consulta
 python scripts/experiment.py --topic "performance"
 ```
 
-### **Casos de Teste Sugeridos**
+### **Casos de Teste com o Texto de Exemplo**
 - 🔍 **Busca específica:** "Prometheus" vs "monitoramento"
 - 🏗️ **Arquitetura:** Perguntas sobre microserviços e containers
 - 📊 **Métricas:** Consultas sobre performance e uptime

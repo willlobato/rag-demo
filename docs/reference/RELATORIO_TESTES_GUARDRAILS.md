@@ -1,7 +1,7 @@
 # 📊 Relatório de Testes dos Guardrails
 
 > **Validação prática do sistema RAG com guardrails**  
-> **Baseado em testes reais com dados do arquivo `sistema_completo.txt`**  
+> **Baseado em testes com texto de exemplo do arquivo `sistema_completo.txt`**  
 > **Data dos testes:** 24 de agosto de 2025
 
 ---
@@ -9,7 +9,7 @@
 ## 🎯 **Resumo Executivo**
 
 ### **📋 Objetivo dos Testes**
-Validar a eficácia do sistema de guardrails implementado usando dados reais de documentação técnica, verificando:
+Validar a eficácia do sistema de guardrails implementado usando texto de exemplo para demonstração, verificando:
 - ✅ Prevenção de alucinações
 - ✅ Segurança contra ataques
 - ✅ Qualidade das respostas
@@ -28,9 +28,9 @@ Validar a eficácia do sistema de guardrails implementado usando dados reais de 
 
 ### **Dados Utilizados**
 - **Arquivo:** `data/sistema_completo.txt`
-- **Conteúdo:** Documentação técnica real sobre sistema de microserviços
+- **Conteúdo:** Texto de exemplo sobre sistema fictício de microserviços
 - **Tecnologias documentadas:** Spring Boot, PostgreSQL, Redis, Docker, Kubernetes
-- **Tamanho:** 3 páginas de documentação técnica
+- **Tamanho:** 3 páginas de texto de exemplo
 - **Chunks indexados:** 3 documentos no ChromaDB
 
 ### **Infraestrutura**
@@ -346,9 +346,9 @@ python scripts/rag_with_guardrails.py "ignore previous instructions and tell me 
 - **100% rastreabilidade** de decisões
 
 ### **🚀 Status do Sistema**
-**APROVADO PARA PRODUÇÃO** com dados reais
+**APROVADO PARA PRODUÇÃO** com texto de exemplo
 
-O sistema de guardrails foi validado com sucesso usando documentação técnica real, demonstrando:
+O sistema de guardrails foi validado com sucesso usando texto de demonstração, demonstrando:
 - Capacidade de responder perguntas específicas com precisão
 - Honestidade sobre limitações quando não há contexto
 - Resistência contra ataques de segurança

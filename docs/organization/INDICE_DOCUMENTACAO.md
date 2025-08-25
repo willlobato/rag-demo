@@ -26,7 +26,7 @@
 - **[GLOSSARIO_CONCEITOS.md](../reference/GLOSSARIO_CONCEITOS.md)** - Dicionário de termos técnicos
 - **[GUARDRAILS_GUIDE.md](../reference/GUARDRAILS_GUIDE.md)** - 🛡️ Guia completo de guardrails para sistemas RAG seguros
 - **[THRESHOLD_OPTIMIZER_GUIDE.md](../reference/THRESHOLD_OPTIMIZER_GUIDE.md)** - 📊 Guia completo do threshold optimizer
-- **[RELATORIO_TESTES_GUARDRAILS.md](../reference/RELATORIO_TESTES_GUARDRAILS.md)** - 📊 Relatório de validação com dados reais
+- **[RELATORIO_TESTES_GUARDRAILS.md](../reference/RELATORIO_TESTES_GUARDRAILS.md)** - 📊 Relatório de validação com texto de exemplo
 
 ### 🗺️ Navegação e Organização
 - **[GUIA_NAVEGACAO.md](../guides/GUIA_NAVEGACAO.md)** - Fluxos de navegação detalhados

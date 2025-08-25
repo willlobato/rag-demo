@@ -1,7 +1,7 @@
 # 🛡️ Guia Prático de Uso dos Guardrails
 
 > **Como usar o sistema RAG com guardrails na prática**  
-> **Baseado em testes reais com o arquivo `sistema_completo.txt`**
+> **Baseado em testes com o arquivo de exemplo `sistema_completo.txt`**
 
 ---
 
@@ -369,11 +369,11 @@ python scripts/rag_with_guardrails.py test
 ### **📊 Contexto do Teste**
 
 **Dados Utilizados:** `data/sistema_completo.txt`
-- Sistema real com microserviços, Spring Boot, PostgreSQL, Redis
-- Documentação técnica de 3 páginas
-- Informações sobre performance, arquitetura, tecnologias
+- Texto de exemplo com conceitos de microserviços, Spring Boot, PostgreSQL, Redis
+- Conteúdo de demonstração de 3 páginas
+- Informações fictícias sobre performance, arquitetura, tecnologias
 
-**Objetivo:** Validar se os guardrails funcionam na prática com dados reais
+**Objetivo:** Validar se os guardrails funcionam na prática com texto de exemplo
 
 ### **🔬 Metodologia de Teste**
 
@@ -627,7 +627,7 @@ FIDELITY_THRESHOLD=0.3
 - **0 falsos negativos** (injection não detectado)
 
 **🎯 Sistema Validado para Produção:**
-Os testes confirmaram que o sistema de guardrails está **pronto para uso em produção** com dados reais, fornecendo:
+Os testes confirmaram que o sistema de guardrails está **pronto para uso em produção** com texto de exemplo, fornecendo:
 - Respostas precisas quando há contexto
 - Honestidade sobre limitações  
 - Segurança contra ataques
