@@ -2,7 +2,7 @@
 
 No capítulo anterior, entendemos que um LLM (Large Language Model) é, no fundo, um previsor de palavras em larga escala, com capacidade de gerar textos coerentes e úteis. Mas vimos também suas limitações: ele não sabe tudo, tem memória limitada e pode "alucinar" respostas.
 
-Como podemos dar a ele acesso a **conhecimento atualizado e específico**? Como podemos fazer isso de forma **eficiente e relevante**, sem enviar um livro inteiro para o modelo a cada pergunta?
+Como podemos dar a ele acesso a **conhecimento atualizado e específico**? Como podemos fazer isso de forma **eficiente e relevante**, sem enviar um tutorial inteiro para o modelo a cada pergunta?
 
 A resposta é: **embeddings**.**Resumo:** neste capítulo explicamos o que são embeddings, por que eles importam, como medir similaridade e como usá-los no pipeline RAG, com exemplos práticos.
 

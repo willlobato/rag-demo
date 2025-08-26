@@ -45,6 +45,26 @@ Pergunta → Embedding → Busca Vetorial → Chunks Relevantes → Prompt + LLM
 
 ---
 
+## KB vs RAG: o que são e quando usar cada um
+Muitas plataformas já oferecem soluções de "knowledge base" (KB) gerenciadas que incluem capacidades de RAG "embutidas" (ou grounding). É importante distinguir conceitos e escolher a estratégia certa:
+
+- KB (Knowledge Base) gerenciada: um serviço que armazena e gerencia seu conteúdo (documentos, embeddings, metadados) e normalmente oferece APIs de busca/retrieval e integração direta com modelos. Exemplos: AWS Bedrock Knowledge Bases, Vertex AI RAG Engine, Azure AI "On your data" / AI Foundry.
+- RAG (Retrieval-Augmented Generation): é um padrão/arquitetura que combina recuperação (retrieval) de evidências com geração por LLM; pode ser implementado com serviços gerenciados ou com uma stack própria (LangChain, LlamaIndex, Chroma/FAISS, etc.).
+
+Por que a distinção importa:
+- Usar um KB gerenciado acelera a entrega e reduz trabalho operacional — bom para prototipagem e para projetos que querem escalar sem reinventar a infraestrutura.
+- Implementar um RAG próprio dá controle fino sobre chunking, reranking, caching, custo e privacidade — bom quando você precisa de ajuste fino ou integração complexa.
+
+Recomendação prática
+- Comece com um serviço gerenciado (Bedrock KB, Vertex RAG Engine, Azure On-Your-Data) para validar a ideia rapidamente.
+- Se precisar de controle (ex.: pipelines de chunking customizados, reranker, estratégias de cache, otimização de custo), migre para uma stack própria com LangChain/LlamaIndex + sua base vetorial.
+
+Fluxos úteis e casos de uso
+- Para conteúdos longos (um tutorial/obra longa com >20 páginas), organize por coleção/obra e por capítulo/versão. Use metadados (capítulo, seção, assunto) para filtros precisos.
+- Para relações complexas entre entidades (personagens, tópicos interligados), avalie abordagens como GraphRAG (recuperação baseada em grafos/entidades) em vez de apenas similaridade de embeddings.
+
+---
+
 ## 2. Pipeline de ingestão (offline)
 
 ### 2.1. Carregamento de documentos

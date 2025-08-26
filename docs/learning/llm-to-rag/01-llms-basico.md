@@ -59,6 +59,31 @@ Isso tem implicações práticas:
 
 ---
 
+## 3.1 Mini‑guia prático de tokens (contador, custo e orçamento)
+- Por que contar tokens importa: custo (tokens processados = custo) e limite de contexto. Planeje prompt + contexto com um budget de tokens.
+- Regra prática rápida: em português, estime ~3–4 caracteres por token (varia por idioma/encoding). Use uma biblioteca tokenizer para contagem precisa (ex.: `tiktoken` para modelos compatíveis).
+
+Exemplo rápido (Python, usando tiktoken):
+
+```python
+# Exemplo conceitual — instale tiktoken quando aplicável
+from tiktoken import encoding_for_model
+
+def count_tokens(text, model_name="gpt-4o"):
+    enc = encoding_for_model(model_name)
+    return len(enc.encode(text))
+
+text = "Explique paralelismo em programação em uma frase."
+print(count_tokens(text))
+```
+
+Dicas práticas:
+- Reserve pelo menos 10–20% do budget para tokens de saída (resposta do modelo).
+- Para RAG, some: tokens_prompt + tokens_context + tokens_expected_output <= model_max_context.
+- Ferramentas úteis: `tiktoken`, `transformers` tokenizers, utilitários de LangChain para estimar tamanho do prompt.
+
+---
+
 ## 4. Janela de contexto: a memória imediata do modelo
 
 A janela de contexto define quanto o modelo consegue considerar de uma vez. Se um modelo tem limite de 8.000 tokens, isso significa que ele só consegue levar em conta aproximadamente 6.000 palavras de entrada (prompt + histórico). Tudo além disso é "esquecido".
@@ -89,6 +114,38 @@ Por mais impressionantes que sejam, LLMs têm limites claros:
 3. **Sensibilidade a prompts:** pequenas mudanças na forma de perguntar podem alterar drasticamente as respostas.
 
 Essas limitações são exatamente o motivo de estarmos construindo sistemas que **ampliam os LLMs com dados confiáveis**. E é aí que o **RAG** entra: em vez de confiar apenas na “memória” do modelo, vamos alimentá-lo com fatos relevantes e atualizados no momento da consulta.
+
+---
+
+## 6.1 Debug checklist (quando o sistema dá respostas ruins)
+- Isolar: reproduza a pergunta com e sem contexto recuperado. Se sem contexto o modelo responde diferente, o problema pode estar no retriever ou nos chunks.
+- Verificar k do retriever: k muito alto traz ruído; muito baixo perde evidência. Experimente k=1..10.
+- Checar truncamento: conte tokens do prompt; se passar do limite, o prompt pode estar sendo cortado.
+- Validar metadados: fontes e timestamps ajudam a saber se o chunk é da versão correta do documento.
+- Teste de similaridade: verifique se embeddings para frases equivalentes são realmente próximos (sanity check).
+- Tentar reranker simples (cross‑encoder) se muitos chunks parecidos aparecem no topo.
+
+## 6.2 Prompt template prático para RAG + fallback anti‑alucinação
+Template recomendado (use placeholders `context` e `question`):
+
+```
+Você é um assistente técnico. Use APENAS o contexto fornecido para responder.
+
+CONTEXTO:
+{context}
+
+PERGUNTA: {question}
+
+INSTRUÇÕES:
+- Responda com precisão e objetividade.
+- Cite as fontes/interno (ex.: fonte: documento.pdf, capítulo 3).
+- Se a informação não estiver no contexto, responda exatamente: "Não encontrei essa informação no contexto fornecido."
+- Não invente dados ou números.
+```
+
+Uso prático:
+- Forme o `context` concatenando os N chunks mais relevantes (com metadados/fonte).
+- Combine o template com temperatura baixa (ex.: 0.0–0.2) para reduzir variação.
 
 ---
 
@@ -126,6 +183,14 @@ Ao compreender como um LLM funciona — especialmente suas forças (geração co
 
 ---
 
+## 8.1 Escalabilidade prática (quando passar do protótipo)
+- Cache de respostas: armazene respostas a consultas frequentes para reduzir custo e latência.
+- Batch de embeddings: processe documentos em lote para aproveitar GPUs/throughput.
+- Reranking: inclua um reranker leve (cross‑encoder) para melhorar precisão antes de gerar o prompt final.
+- Serviço de serving: para produção, considere migrar o endpoint de serving para uma stack mais performática (containers, Golang/Java para alta concorrência) mantendo Python para pipeline offline.
+
+---
+
 ## 9. Exercício sugerido
 
 1. Pergunte a um LLM sobre algo muito recente (últimos 3 meses).
@@ -136,16 +201,55 @@ Você perceberá como um modelo pode parecer certo… e ainda assim estar comple
 
 ---
 
-## 10. Conclusão
+## 9.1 Métricas e avaliação rápida (como medir a qualidade)
+- Precisão simples: proporção de respostas factuais corretas em um conjunto de perguntas de referência.
+- Precisão@k (para retrieval): se a resposta correta está entre os top‑k chunks recuperados.
+- Taxa de citação correta: frequência com que as fontes citadas na resposta realmente suportam a afirmação.
+- Avaliação humana/QA: revisão manual de amostras para medir 'faithfulness'.
 
-Um LLM é um modelo estatístico de linguagem em escala massiva. Ele nos permite criar aplicações que interagem naturalmente com humanos, mas precisa ser alimentado com contexto confiável para ser realmente útil em cenários críticos.
-
-No próximo capítulo, entraremos no mundo dos embeddings — a tecnologia que permite transformar textos em vetores e encontrar informações relevantes com base em significado, não em palavras exatas. É a fundação matemática que torna o RAG possível.
-
-> “Um LLM sem contexto é um orador eloquente que pode falar por horas… mas nem sempre sobre o que você precisa.”
+Como montar um teste simples:
+1. Crie 20–50 perguntas com respostas de referência (gold).  
+2. Rode o pipeline RAG e armazene: pergunta, resposta, fontes, chunks usados.  
+3. Calcule métricas básicas (precision, precision@k) e registre num CSV para comparação de configurações.
 
 ---
 
-### Pergunta ao leitor
+## 9.2 Experimentos práticos sugeridos
+- Teste A (temperatura): compare resultados com temperature=0.0 vs 0.8 em 5–10 perguntas factuais. Avalie variação e tendência a alucinações.
+- Teste B (retrieval k): experimente k=1,3,5 e compare precision@k e qualidade das citações.
+- Teste C (chunk size): compare chunk_size=500,1000,1500 tokens e observe impacto em recall/precisão.
 
-Quer que eu siga **com o Capítulo 03 – Bases Vetoriais (Chroma, indexação e recuperação)** já no mesmo nível de profundidade que este e o de Embeddings? Ou prefere que eu vá intercalando **teoria + código real do seu projeto** no Capítulo 03?
+Registro de resultados (exemplo CSV):
+```
+question,config,temp,k,chunk_size,answer,precision,precision@k,sources
+"O que é paralelismo?","default",0.0,3,1000,"...",1,1,"manual.txt#p12"
+```
+
+---
+
+## Apêndice: comandos úteis do Ollama e healthcheck
+- Testar modelo local:
+
+```bash
+ollama run llama3 "Explique paralelismo em programação em uma frase."
+```
+
+- Testar com temperatura:
+
+```bash
+ollama run llama3 --temperature 0.8 "Explique paralelismo em programação em uma frase."
+```
+
+- Healthcheck / tags:
+
+```bash
+curl http://localhost:11434/api/tags
+```
+
+---
+
+## Referências e leituras rápidas
+- Paper Transformer (Vaswani et al., 2017)
+- tiktoken / tokenizers (para contagem de tokens)
+- LangChain prompts guide
+- Artigos sobre RAG e Grounding (AWS Bedrock, Vertex RAG Engine docs)
