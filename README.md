@@ -1,20 +1,130 @@
 # RAG Demo - Sistema Educacional Completo
 
-> **Sistema RAG (Retrieval-Augmented Generation) com documentação educacional abrangente**
+### 📖 **Documentação Técnica Complementar**
 
-Um projeto de demonstração completo de RAG usando Ollama para modelos locais, ChromaDB para armazenamento vetorial e LangChain para orquestração, acompanhado de um sistema educacional estruturado para aprendizagem progressiva.
+### 🎯 **Portal Principal**: **[docs/](docs/)** 
+> Acesso completo à documentação organizada por categorias
+
+### 🚀 **Links Rápidos da Documentação**
+
+#### 📖 **[docs/guides/](docs/guides/) - Guias e Tutoriais Práticos**
+- **[TUTORIAL_RAG.md](docs/guides/TUTORIAL_RAG.md)** 📚 - Tutorial completo sobre conceitos RAGTécnica Complementar**
+
+### 🎯 **Portal Principal**: **[docs/](docs/)** 
+> Acesso completo à documentação organizada por categorias
+
+### 🚀 **Links Rápidos da Documentação**
+
+#### 📖 **[docs/guides/](docs/guides/) - Guias e Tutoriais Práticos**
+- **[TUTORIAL_RAG.md](docs/guides/TUTORIAL_RAG.md)** 📚 - Tutorial completo sobre conceitos RAG
+- **[GUIA_NAVEGACAO.md](docs/guides/GUIA_NAVEGACAO.md)** 🧭 - Fluxos de navegação e aprendizagem
+- **[EXEMPLOS_USO_SCRIPTS.md](docs/guides/EXEMPLOS_USO_SCRIPTS.md)** 💡 - Exemplos práticos de uso dos scripts
+- **[USO_GUARDRAILS.md](docs/guides/USO_GUARDRAILS.md)** 🛡️ - Guia de uso dos guardrails anti-alucinaçãom documentação educacional abrangente**
+
+Um projeto de demonstração completo de RAG usando Ollama para modelos locais, ChromaDB para armazenamento vetorial e LangChain para orquestração, acompanhado de um sistema educacional estruturado O material em **[docs/learning/llm-to-rag/](docs/learning/llm-to-rag/)** oferece uma jornada estruturada do básico ao avançado:
+
+- **📚 Teoria + Prática:** Cada conceito acompanha exemplos executáveis
+- **🔄 Progressivo:** Conhecimento construído incrementalmente
+- **🛠️ Hands-on:** Scripts práticos para cada etapa
+- **🎯 Focado:** Do LLM básico ao RAG em produçãoprendizagem progressiva.
 
 ---
 
-## 📚 **DOCUMENTAÇÃO COMPLETA**
+## 🚀 **Por que RAG? Por que agora?**
+
+Imagine fazer estas perguntas a uma IA e receber respostas **precisas** e **com fontes**:
+
+- 🏥 **"Qual o protocolo específico para pacientes com COVID-19 internados na UTI segundo as diretrizes atualizadas de janeiro de 2024?"**
+- 💼 **"Com base nos contratos da empresa, qual a cláusula exata sobre rescisão em caso de descumprimento do prazo de entrega?"**
+- 🔬 **"Considerando todos os papers sobre CRISPR publicados nos últimos 6 meses, quais são as 3 principais limitações técnicas ainda não resolvidas?"**
+- 📊 **"Analisando nossos dados internos de vendas, qual estratégia de precificação teve melhor resultado no Q3 de 2024?"**
+
+**O problema:** Modelos de IA tradicionais (GPT, Claude, etc.) não conseguem responder essas perguntas porque:
+- ❌ **Não têm acesso aos seus dados privados** (contratos, relatórios internos, bases de conhecimento específicas)
+- ❌ **Ficam desatualizados rapidamente** (dados de treinamento têm uma "data de corte")
+- ❌ **Podem "alucinar" informações** quando não sabem a resposta
+- ❌ **Não fornecem fontes verificáveis** para auditoria
+
+**A solução RAG:**
+- ✅ **Conecta IA aos seus dados em tempo real** - documentos, PDFs, bases de conhecimento, APIs
+- ✅ **Sempre atualizado** - busca as informações mais recentes no momento da pergunta
+- ✅ **Respostas com fontes** - você sabe exatamente de onde veio cada informação
+- ✅ **Reduz alucinações drasticamente** - a IA responde baseada em evidências concretas
+
+### 🎯 **Casos Reais Que Só RAG Resolve**
+
+**🏢 Consultoria Jurídica Inteligente**
+- Cliente pergunta sobre uma lei específica → RAG busca na base atualizada de legislação → resposta precisa com artigos e incisos exatos
+- **Sem RAG:** IA pode inventar leis que não existem ou citar versões antigas
+
+**🏥 Assistente Médico com Protocolos Atualizados**
+- Médico consulta sobre novo tratamento → RAG acessa diretrizes médicas mais recentes → recomendação baseada em evidência científica atual
+- **Sem RAG:** Informação médica desatualizada pode ser perigosa
+
+**📈 Business Intelligence Conversacional**
+- "Qual produto teve melhor margem no último trimestre?" → RAG consulta dados de vendas reais → análise baseada em números concretos
+- **Sem RAG:** IA não tem acesso aos dados internos da empresa
+
+**🎓 Assistente Educacional Personalizado**
+- Estudante pergunta sobre tópico específico → RAG busca em bibliografia do curso + anotações do professor → resposta contextualizada ao currículo
+- **Sem RAG:** Respostas genéricas que não seguem a metodologia do curso
+
+---
+
+## 📚 **SISTEMA EDUCACIONAL COMPLETO**
+
+### 🎓 **Trilha de Aprendizagem: Do LLM ao RAG**
+
+**NOVO!** Material educacional estruturado em **[docs/learning/llm-to-rag/](docs/learning/llm-to-rag/)** com 13 capítulos progressivos:
+
+#### 🚀 **Trilha Básica (Para Iniciantes)**
+1. **[00-introducao.md](docs/learning/llm-to-rag/00-introducao.md)** - Por que RAG? Visão geral e primeiros passos
+2. **[01-llms-basico.md](docs/learning/llm-to-rag/01-llms-basico.md)** - LLMs, tokens, contexto e LangChain
+3. **[02-embeddings-similaridade.md](docs/learning/llm-to-rag/02-embeddings-similaridade.md)** - Como transformar texto em vetores
+4. **[03-bases-vetoriais.md](docs/learning/llm-to-rag/03-bases-vetoriais.md)** - ChromaDB e busca por similaridade
+
+#### 🔧 **Trilha Técnica (Para Implementadores)**
+5. **[04-nlp-preprocessamento.md](docs/learning/llm-to-rag/04-nlp-preprocessamento.md)** - Chunking, limpeza e normalização
+6. **[05-rag-basico.md](docs/learning/llm-to-rag/05-rag-basico.md)** - Pipeline RAG completo com diagrama
+7. **[06-rag-avancado.md](docs/learning/llm-to-rag/06-rag-avancado.md)** - Estratégias avançadas e otimizações
+8. **[07-guardrails.md](docs/learning/llm-to-rag/07-guardrails.md)** - Evitando alucinações
+
+#### 🏭 **Trilha Avançada (Para Produção)**
+9. **[08-deploy.md](docs/learning/llm-to-rag/08-deploy.md)** - Deploy e monitoramento
+10. **[09-prompt-context-engineering.md](docs/learning/llm-to-rag/09-prompt-context-engineering.md)** - Engenharia de prompts
+11. **[10-estudo-de-caso.md](docs/learning/llm-to-rag/10-estudo-de-caso.md)** - Caso prático completo
+12. **[11-avaliacao-rag.md](docs/learning/llm-to-rag/11-avaliacao-rag.md)** - Métricas e avaliação (RAGAs)
+13. **[12-troubleshooting.md](docs/learning/llm-to-rag/12-troubleshooting.md)** - Problemas comuns e soluções
+14. **[prompt_cheatsheet.md](docs/learning/llm-to-rag/prompt_cheatsheet.md)** - Referência rápida
+
+### 📖 **Documentação Técnica Complementar**
+
+### 📖 **Documentação Técnica Complementar**
 
 ### 🎯 **Portal Principal**: **[docs/](docs/)** 
-> Acesse toda a documentação organizada por categorias
+> Acesso completo à documentação organizada por categorias
 
-### 🚀 **Links Rápidos**
-- **[docs/guides/](docs/guides/)** 📖 - Tutoriais e guias práticos
-- **[docs/reference/](docs/reference/)** 📋 - Documentação técnica detalhada  
-- **[docs/organization/](docs/organization/)** 🗄️ - Organização e navegação do sistema
+### 🚀 **Links Rápidos da Documentação**
+
+#### 📖 **[docs/guides/](docs/guides/) - Guias e Tutoriais Práticos**
+- **[TUTORIAL_RAG.md](docs/guides/TUTORIAL_RAG.md)** � - Tutorial completo sobre conceitos RAG
+- **[GUIA_NAVEGACAO.md](docs/guides/GUIA_NAVEGACAO.md)** 🧭 - Fluxos de navegação e aprendizagem
+- **[EXEMPLOS_USO_SCRIPTS.md](docs/guides/EXEMPLOS_USO_SCRIPTS.md)** 💡 - Exemplos práticos de uso dos scripts
+- **[USO_GUARDRAILS.md](docs/guides/USO_GUARDRAILS.md)** 🛡️ - Guia de uso dos guardrails anti-alucinação
+
+#### 📋 **[docs/reference/](docs/reference/) - Documentação de Referência**
+- **[GLOSSARIO_CONCEITOS.md](docs/reference/GLOSSARIO_CONCEITOS.md)** � - Dicionário de termos técnicos
+- **[DOCUMENTACAO_SCRIPTS_AVANCADOS.md](docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md)** 🔬 - Análise técnica avançada
+- **[GUARDRAILS_GUIDE.md](docs/reference/GUARDRAILS_GUIDE.md)** 🛡️ - Guia técnico detalhado de guardrails
+- **[THRESHOLD_OPTIMIZER_GUIDE.md](docs/reference/THRESHOLD_OPTIMIZER_GUIDE.md)** 🎯 - Guia do otimizador de threshold
+- **[RELATORIO_TESTES_GUARDRAILS.md](docs/reference/RELATORIO_TESTES_GUARDRAILS.md)** 📊 - Relatório de validação dos guardrails
+
+#### 🗄️ **[docs/organization/](docs/organization/) - Meta-Documentação**
+- **[INDICE_DOCUMENTACAO.md](docs/organization/INDICE_DOCUMENTACAO.md)** � - Índice geral completo
+- **[CLASSIFICACAO_SCRIPTS.md](docs/organization/CLASSIFICACAO_SCRIPTS.md)** 🏷️ - Classificação por complexidade
+- **[MAPA_VISUAL.md](docs/organization/MAPA_VISUAL.md)** 🗺️ - Representação visual do sistema
+- **[RELATORIO_ORGANIZACAO.md](docs/organization/RELATORIO_ORGANIZACAO.md)** 📈 - Relatório organizacional
+- **[RESUMO_SISTEMA_EDUCACIONAL.md](docs/organization/RESUMO_SISTEMA_EDUCACIONAL.md)** 🎓 - Visão geral educacional
 
 ---
 
@@ -38,20 +148,22 @@ python scripts/search_docs.py "Kubernetes" 3
 
 ## 🚀 **INÍCIO RÁPIDO**
 
-### 📖 **Para Iniciantes (com exemplo prático)**
+### 📖 **Para Iniciantes (com trilha educacional)**
 ```
-1️⃣ docs/guides/TUTORIAL_RAG.md → Fundamentos de RAG
-2️⃣ python scripts/run_ingest.py → Indexar dados de exemplo
-3️⃣ python scripts/run_query.py "Como funciona o cache distribuído?" → Primeira consulta
-4️⃣ docs/guides/EXEMPLOS_USO_SCRIPTS.md → Explorar mais funcionalidades
+1️⃣ docs/learning/llm-to-rag/00-introducao.md → Fundamentos teóricos
+2️⃣ docs/learning/llm-to-rag/01-llms-basico.md → Entender LLMs e LangChain
+3️⃣ python scripts/run_ingest.py → Primeira prática
+4️⃣ python scripts/run_query.py "Como funciona o cache distribuído?" → Ver RAG funcionando
+5️⃣ docs/learning/llm-to-rag/05-rag-basico.md → Compreender o pipeline completo
 ```
 
 ### 🔬 **Para Desenvolvedores (análise técnica)**  
 ```
-1️⃣ python scripts/analyze_chunks.py --full → Ver como dados foram processados
-2️⃣ python scripts/show_vectors.py "microserviços" true → Entender embeddings
-3️⃣ docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md → Análise avançada
-4️⃣ scripts/experiment.py → Experimentação com parâmetros
+1️⃣ docs/learning/llm-to-rag/02-embeddings-similaridade.md → Entender embeddings
+2️⃣ python scripts/analyze_chunks.py --full → Ver processamento na prática
+3️⃣ python scripts/show_vectors.py "microserviços" true → Entender vetorização
+4️⃣ docs/learning/llm-to-rag/06-rag-avancado.md → Técnicas avançadas
+5️⃣ docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md → Scripts para produção
 ```
 
 ---
@@ -240,21 +352,30 @@ python scripts/threshold_optimizer.py
 
 ## 📊 **Sistema Educacional**
 
-### 🎓 **Níveis de Aprendizagem**
-- **🟢 Básico:** Conceitos fundamentais e operações simples
-- **🟡 Intermediário:** Análise, métricas e otimização
-- **🔴 Avançado:** Pesquisa, experimentação e desenvolvimento
+### 🎓 **Trilha Educacional Completa (13 Capítulos)**
+O material em **[docs/learning/llm-to-rag/](docs/learning/llm-to-rag/)** oferece uma jornada estruturada do básico ao avançado:
 
-### 📖 **Material Disponível**
-- **37 arquivos** de documentação total
+- **� Teoria + Prática:** Cada conceito acompanha exemplos executáveis
+- **� Progressivo:** Conhecimento construído incrementalmente
+- **�️ Hands-on:** Scripts práticos para cada etapa
+- **🎯 Focado:** Do LLM básico ao RAG em produção
+
+### 📖 **Material Disponível Total**
+- **50+ arquivos** de documentação
 - **Tutoriais interativos** com exemplos práticos
-- **Glossário técnico** com 50+ conceitos
+- **Glossário técnico** com conceitos essenciais
 - **Guias de navegação** para diferentes perfis
+- **Casos de estudo** com problemas reais
 
-### 🧭 **Como Navegar**
-1. **Iniciante?** Comece em `docs/guides/TUTORIAL_RAG.md`
-2. **Desenvolvedor?** Vá para `docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md`
-3. **Pesquisador?** Explore `docs/reference/DOCUMENTACAO_SCRIPTS_AVANCADOS.md`
+### 🧭 **Como Navegar o Aprendizado**
+1. **🟢 Iniciante?** Comece em `docs/learning/llm-to-rag/00-introducao.md`
+2. **🟡 Desenvolvedor?** Vá para `docs/learning/llm-to-rag/05-rag-basico.md`
+3. **🔴 Avançado?** Explore `docs/learning/llm-to-rag/11-avaliacao-rag.md`
+
+### 🏆 **Níveis de Conhecimento**
+- **🟢 Básico:** Conceitos fundamentais e operações simples
+- **🟡 Intermediário:** Análise, métricas e otimização  
+- **🔴 Avançado:** Pesquisa, experimentação e produção
 
 ---
 
