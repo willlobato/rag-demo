@@ -36,7 +36,7 @@ Imagine fazer estas perguntas a uma IA e receber respostas **precisas** e **com 
 
 - 🏥 **"Qual o protocolo específico para pacientes com COVID-19 internados na UTI segundo as diretrizes atualizadas de janeiro de 2024?"**
 - 💼 **"Com base nos contratos da empresa, qual a cláusula exata sobre rescisão em caso de descumprimento do prazo de entrega?"**
-- 🔬 **"Considerando todos os papers sobre CRISPR publicados nos últimos 6 meses, quais são as 3 principais limitações técnicas ainda não resolvidas?"**
+- � **"Qual é o procedimento para solicitar reembolso segundo o manual de políticas da empresa atualizado na semana passada?"**
 - 📊 **"Analisando nossos dados internos de vendas, qual estratégia de precificação teve melhor resultado no Q3 de 2024?"**
 
 **O problema:** Modelos de IA tradicionais (GPT, Claude, etc.) não conseguem responder essas perguntas porque:
