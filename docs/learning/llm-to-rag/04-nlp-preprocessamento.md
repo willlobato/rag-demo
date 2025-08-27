@@ -111,50 +111,47 @@ def semantic_chunking(text):
 
 ## 3. Normalização e limpeza de texto
 
-### 3.1. Remoção de caracteres especiais
+Antes do chunking, é uma boa prática limpar e normalizar o texto para melhorar a qualidade dos embeddings.
+
+- **Remover caracteres estranhos:** `\u0000`, `\ufffd`, etc.
+- **Normalizar espaços em branco:** substituir múltiplos espaços/quebras de linha por um único.
+- **Converter para minúsculas (opcional):** pode ajudar em alguns modelos de embedding, mas pode prejudicar em outros que são sensíveis a maiúsculas (ex: siglas).
+- **Remover cabeçalhos/rodapés repetitivos:** em PDFs ou documentos corporativos.
 
 ```python
 import re
 
-def clean_text(text):
-    # Remove caracteres de controle
-    text = re.sub(r'[\x00-\x1f\x7f-\x9f]', '', text)
-    
-    # Normaliza espaços em branco
-    text = re.sub(r'\s+', ' ', text)
-    
-    # Remove espaços no início e fim
-    text = text.strip()
-    
+def normalize_text(text):
+    text = text.lower()  # Cuidado com siglas
+    text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'[\n\r]+', '\n', text)
     return text
 ```
 
-### 3.2. Normalização de quebras de linha
+### Técnicas Adicionais de Limpeza
 
-```python
-def normalize_whitespace(text):
-    # Converte múltiplas quebras de linha em parágrafos
-    text = re.sub(r'\n\s*\n', '\n\n', text)
-    
-    # Remove quebras de linha dentro de frases
-    text = re.sub(r'(?<!\n)\n(?!\n)', ' ', text)
-    
-    return text
-```
+- **Remoção de HTML:** Se seus documentos vêm de fontes web, é crucial remover tags HTML para não poluir os embeddings. Bibliotecas como `BeautifulSoup` são excelentes para isso.
+  ```python
+  from bs4 import BeautifulSoup
 
-### 3.3. Tratamento de encoding
+  def strip_html(text):
+      soup = BeautifulSoup(text, "html.parser")
+      return soup.get_text()
+  ```
 
-```python
-def fix_encoding(text):
-    # Remove ou substitui caracteres problemáticos
-    text = text.encode('utf-8', errors='ignore').decode('utf-8')
-    
-    # Normaliza caracteres Unicode
-    import unicodedata
-    text = unicodedata.normalize('NFKC', text)
-    
-    return text
-```
+- **Tratamento de URLs e E-mails:** URLs e endereços de e-mail raramente adicionam valor semântico e podem ser substituídos por um placeholder ou removidos.
+  ```python
+  def remove_urls_emails(text):
+      text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
+      text = re.sub(r'\S*@\S*\s?', '', text, flags=re.MULTILINE)
+      return text
+  ```
+
+- **Lidar com Hifenação:** Palavras que são quebradas por hífens no final de uma linha (`quebra-\nde-linha`) devem ser unidas para formar a palavra correta (`quebra-de-linha`).
+
+- **Expansão de Contrações (em inglês):** Em textos em inglês, expandir contrações como "don't" para "do not" pode ajudar na consistência.
+
+A escolha das técnicas de limpeza depende muito da natureza dos seus dados. A regra geral é: quanto mais "limpo" e semanticamente puro for o texto, melhor será o desempenho do seu sistema RAG.
 
 ---
 

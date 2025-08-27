@@ -33,6 +33,33 @@ Documentos → Pré-processamento → Chunking → Embeddings → Base Vetorial
 Pergunta → Embedding → Busca Vetorial → Chunks Relevantes → Prompt + LLM → Resposta
 ```
 
+### Diagrama do Fluxo RAG
+
+Abaixo, um diagrama que ilustra as duas fases principais do RAG:
+
+```mermaid
+graph TD
+    subgraph "Fase 1: Ingestão (Offline)"
+        A[Documentos] --> B{Pré-processamento e Chunking};
+        B --> C[Geração de Embeddings];
+        C --> D[(Base Vetorial)];
+    end
+
+    subgraph "Fase 2: Consulta (Online)"
+        E[Pergunta do Usuário] --> F{Geração de Embedding da Pergunta};
+        F --> G{Busca de Similaridade};
+        D --> G;
+        G --> H[Chunks Relevantes];
+        H --> I{Construção do Prompt};
+        E --> I;
+        I --> J[LLM];
+        J --> K[Resposta Aumentada];
+    end
+
+    style D fill:#f9f,stroke:#333,stroke-width:2px
+    style J fill:#ccf,stroke:#333,stroke-width:2px
+```
+
 ### 1.3. Componentes essenciais
 
 - **Document Loader:** carrega diferentes tipos de arquivo

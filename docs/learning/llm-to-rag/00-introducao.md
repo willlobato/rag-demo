@@ -34,10 +34,15 @@ Benefícios: respostas mais **atuais**, **auditáveis** (com fontes) e **persona
 - `02-embeddings-similaridade.md` — embeddings e medidas de similaridade.
 - `03-bases-vetoriais.md` — como funcionam vetoriais e Chroma.
 - `04-nlp-preprocessamento.md` — chunking, limpeza e normalização.
-- `05-rag-basico.md` — pipeline RAG minimal.
+- `05-rag-basico.md` — pipeline RAG minimal com diagrama de fluxo.
 - `06-rag-avancado.md` — estratégias avançadas e otimizações.
 - `07-guardrails.md` — como evitar e manejar alucinações.
 - `08-deploy.md` — opções de implantação e dicas de produção.
+- `09-prompt-context-engineering.md` — engenharia de prompt e contexto.
+- `10-estudo-de-caso.md` — estudo de caso prático.
+- `11-avaliacao-rag.md` — avaliação de sistemas RAG com métricas.
+- `12-troubleshooting.md` — guia de troubleshooting com problemas e soluções.
+- `prompt_cheatsheet.md` — um guia de referência rápida para prompts.
 
 ## Pré-requisitos (mínimos)
 - Python 3.10+ e `pip`.

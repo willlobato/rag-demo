@@ -12,11 +12,12 @@ Sumário
 3. Tokens
 4. Janela de contexto
 5. Parâmetros de geração
-6. Limitações e riscos
-7. Teste prático (Ollama)
-8. Por que LLMs importam para RAG
-9. Exercício sugerido
-10. Conclusão e próximos passos
+6. As limitações que ninguém pode ignorar
+7. O Framework LangChain
+8. Teste prático (Ollama)
+9. Por que LLMs importam para RAG
+10. Exercício sugerido
+11. Conclusão e próximos passos
 
 ---
 
@@ -99,9 +100,10 @@ Embora um LLM pareça mágico, ele é controlável através de parâmetros:
 - **Temperatura:** controla a criatividade.  
 	- `0.0` = respostas determinísticas (sempre iguais para a mesma pergunta).  
 	- `0.8` = respostas criativas e variadas.
-- **Top-k e Top-p:** ajustam a diversidade do vocabulário escolhido.
+- **Top-k:** limita o vocabulário às k palavras mais prováveis.
+- **Top-p:** outra forma de controlar a aleatoriedade, selecionando palavras de um pool de probabilidade.
 
-Para aplicações como RAG, geralmente usamos **temperatura baixa**, garantindo consistência nas respostas.
+Para RAG, onde a precisão é crucial, geralmente usamos **temperatura baixa (0.0 a 0.2)** para evitar que o modelo invente informações.
 
 ---
 
@@ -113,11 +115,44 @@ Por mais impressionantes que sejam, LLMs têm limites claros:
 2. **Desatualização:** conhecem apenas o que foi usado no treinamento.
 3. **Sensibilidade a prompts:** pequenas mudanças na forma de perguntar podem alterar drasticamente as respostas.
 
-Essas limitações são exatamente o motivo de estarmos construindo sistemas que **ampliam os LLMs com dados confiáveis**. E é aí que o **RAG** entra: em vez de confiar apenas na “memória” do modelo, vamos alimentá-lo com fatos relevantes e atualizados no momento da consulta.
+Essas limitações são exatamente o motivo de estarmos construindo sistemas que **ampliam os LLMs com dados confiáveis**. E é aí que o **RAG** entra: em vez de confiar apenas na "memória" do modelo, vamos alimentá-lo com fatos relevantes e atualizados no momento da consulta.
+
+### 6.1 Métricas e avaliação rápida (como medir a qualidade)
+- Precisão simples: proporção de respostas factuais corretas em um conjunto de perguntas de referência.
+- Precisão@k (para retrieval): se a resposta correta está entre os top‑k chunks recuperados.
+- Taxa de citação correta: frequência com que as fontes citadas na resposta realmente suportam a afirmação.
+- Avaliação humana/QA: revisão manual de amostras para medir 'faithfulness'.
+
+Como montar um teste simples:
+1. Crie 20–50 perguntas com respostas de referência (gold).  
+2. Rode o pipeline RAG e armazene: pergunta, resposta, fontes, chunks usados.  
+3. Calcule métricas básicas (precision, precision@k) e registre num CSV para comparação de configurações.
 
 ---
 
-## 6.1 Debug checklist (quando o sistema dá respostas ruins)
+## 7. O Framework LangChain: Orquestrando Componentes de LLM
+
+Ao construir aplicações com LLMs, raramente usamos um modelo de forma isolada. Precisamos conectá-lo a fontes de dados, interagir com APIs e criar cadeias de processamento. É aqui que entra o **LangChain**.
+
+**O que é LangChain?**
+LangChain é um framework de código aberto que simplifica o desenvolvimento de aplicações baseadas em modelos de linguagem. Ele fornece um conjunto de ferramentas e abstrações para:
+
+- **Gerenciar Prompts:** Criar, otimizar e serializar prompts.
+- **Construir Chains (Cadeias):** Encadear chamadas a LLMs com outras ferramentas ou entre si. Uma chain pode, por exemplo, primeiro traduzir um texto, depois resumi-lo.
+- **Acessar Dados (RAG):** Conectar-se a bases de dados (vetoriais ou não), carregar documentos, dividi-los em chunks e realizar buscas de similaridade.
+- **Agentes:** Permitir que o LLM use ferramentas externas (como APIs, bancos de dados ou a busca na internet) para responder a perguntas que exigem informações do mundo real.
+- **Gerenciar Memória:** Adicionar estado e memória a conversas, permitindo que o LLM "lembre" de interações passadas.
+
+**Por que usamos LangChain neste projeto?**
+- **Abstração:** Em vez de escrever código de baixo nível para cada modelo ou base de dados, usamos as abstrações do LangChain. Isso torna o código mais limpo e fácil de manter. Por exemplo, `OllamaEmbeddings` e `Chroma` são integrações do LangChain.
+- **Modularidade:** O LangChain permite trocar componentes facilmente. Podemos substituir o `Ollama` pelo `GPT-4` ou o `Chroma` pelo `FAISS` com poucas alterações no código.
+- **Ecossistema:** Possui uma vasta gama de integrações com serviços de nuvem, bases de dados e APIs, acelerando o desenvolvimento.
+
+Em resumo, o LangChain atua como a "cola" que une todos os componentes do nosso sistema RAG, permitindo-nos focar na lógica da aplicação em vez de nos preocuparmos com os detalhes de implementação de cada parte.
+
+---
+
+## 7.1. Debug checklist (quando o sistema dá respostas ruins)
 - Isolar: reproduza a pergunta com e sem contexto recuperado. Se sem contexto o modelo responde diferente, o problema pode estar no retriever ou nos chunks.
 - Verificar k do retriever: k muito alto traz ruído; muito baixo perde evidência. Experimente k=1..10.
 - Checar truncamento: conte tokens do prompt; se passar do limite, o prompt pode estar sendo cortado.
@@ -125,7 +160,7 @@ Essas limitações são exatamente o motivo de estarmos construindo sistemas que
 - Teste de similaridade: verifique se embeddings para frases equivalentes são realmente próximos (sanity check).
 - Tentar reranker simples (cross‑encoder) se muitos chunks parecidos aparecem no topo.
 
-## 6.2 Prompt template prático para RAG + fallback anti‑alucinação
+## 7.2. Prompt template prático para RAG + fallback anti‑alucinação
 Template recomendado (use placeholders `context` e `question`):
 
 ```
@@ -147,9 +182,15 @@ Uso prático:
 - Forme o `context` concatenando os N chunks mais relevantes (com metadados/fonte).
 - Combine o template com temperatura baixa (ex.: 0.0–0.2) para reduzir variação.
 
+## 7.3. Escalabilidade prática (quando passar do protótipo)
+- Cache de respostas: armazene respostas a consultas frequentes para reduzir custo e latência.
+- Batch de embeddings: processe documentos em lote para aproveitar GPUs/throughput.
+- Reranking: inclua um reranker leve (cross‑encoder) para melhorar precisão antes de gerar o prompt final.
+- Serviço de serving: para produção, considere migrar o endpoint de serving para uma stack mais performática (containers, Golang/Java para alta concorrência) mantendo Python para pipeline offline.
+
 ---
 
-## 7. Um teste prático com um LLM local
+## 8. Teste prático (Ollama)
 
 Para começar a brincar com um LLM local, vamos usar o [Ollama](https://ollama.com). Com ele rodando, digite:
 
@@ -159,7 +200,7 @@ ollama run llama3 "Explique paralelismo em programação em uma frase."
 
 Você deve ver algo assim:
 
-Paralelismo é a execução de múltiplas tarefas ao mesmo tempo para aumentar a eficiência.
+> Paralelismo é a execução de múltiplas tarefas ao mesmo tempo para aumentar a eficiência.
 
 Agora, rode com temperatura maior:
 
@@ -169,9 +210,51 @@ ollama run llama3 --temperature 0.8 "Explique paralelismo em programação em um
 
 Compare as respostas. Na segunda, o modelo pode usar palavras diferentes ou até exemplos criativos. Isso ilustra como os parâmetros afetam o comportamento.
 
+### 8.1 Escalabilidade prática (quando passar do protótipo)
+- Cache de respostas: armazene respostas a consultas frequentes para reduzir custo e latência.
+- Batch de embeddings: processe documentos em lote para aproveitar GPUs/throughput.
+- Reranking: inclua um reranker leve (cross‑encoder) para melhorar precisão antes de gerar o prompt final.
+- Serviço de serving: para produção, considere migrar o endpoint de serving para uma stack mais performática (containers, Golang/Java para alta concorrência) mantendo Python para pipeline offline.
+
 ---
 
-## 8. Por que entender LLMs é essencial para RAG?
+## 9. Por que entender LLMs é essencial para RAG?
+
+Você poderia simplesmente jogar todos os seus documentos em um LLM e pedir para ele "ler tudo". Mas isso não funciona:
+
+- Custaria muito caro (tokens = dinheiro).
+- Ultrapassaria limites de contexto.
+- Geraria respostas possivelmente erradas (alucinações).
+
+Ao compreender como um LLM funciona — especialmente suas forças (geração coerente) e fraquezas (memória limitada, desatualização) —, você estará pronto para aproveitar ao máximo o RAG, que combina recuperação inteligente com geração controlada.
+
+### 9.1 Métricas e avaliação rápida (como medir a qualidade)
+- Precisão simples: proporção de respostas factuais corretas em um conjunto de perguntas de referência.
+- Precisão@k (para retrieval): se a resposta correta está entre os top‑k chunks recuperados.
+- Taxa de citação correta: frequência com que as fontes citadas na resposta realmente suportam a afirmação.
+- Avaliação humana/QA: revisão manual de amostras para medir 'faithfulness'.
+
+Como montar um teste simples:
+1. Crie 20–50 perguntas com respostas de referência (gold).  
+2. Rode o pipeline RAG e armazene: pergunta, resposta, fontes, chunks usados.  
+3. Calcule métricas básicas (precision, precision@k) e registre num CSV para comparação de configurações.
+
+### 9.2 Experimentos práticos sugeridos
+- Teste A (temperatura): compare resultados com temperature=0.0 vs 0.8 em 5–10 perguntas factuais. Avalie variação e tendência a alucinações.
+- Teste B (retrieval k): experimente k=1,3,5 e compare precision@k e qualidade das citações.
+- Teste C (chunk size): compare chunk_size=500,1000,1500 tokens e observe impacto em recall/precisão.
+
+Registro de resultados (exemplo CSV):
+```
+question,config,temp,k,chunk_size,answer,precision,precision@k,sources
+"O que é paralelismo?","default",0.0,3,1000,"...",1,1,"manual.txt#p12"
+```
+
+---
+
+## 10. Exercício sugerido
+
+## 9. Por que entender LLMs é essencial para RAG?
 
 Você poderia simplesmente jogar todos os seus documentos em um LLM e pedir para ele “ler tudo”. Mas isso não funciona:
 
@@ -180,14 +263,6 @@ Você poderia simplesmente jogar todos os seus documentos em um LLM e pedir para
 - Geraria respostas possivelmente erradas (alucinações).
 
 Ao compreender como um LLM funciona — especialmente suas forças (geração coerente) e fraquezas (memória limitada, desatualização) —, você estará pronto para aproveitar ao máximo o RAG, que combina recuperação inteligente com geração controlada.
-
----
-
-## 8.1 Escalabilidade prática (quando passar do protótipo)
-- Cache de respostas: armazene respostas a consultas frequentes para reduzir custo e latência.
-- Batch de embeddings: processe documentos em lote para aproveitar GPUs/throughput.
-- Reranking: inclua um reranker leve (cross‑encoder) para melhorar precisão antes de gerar o prompt final.
-- Serviço de serving: para produção, considere migrar o endpoint de serving para uma stack mais performática (containers, Golang/Java para alta concorrência) mantendo Python para pipeline offline.
 
 ---
 
@@ -201,29 +276,12 @@ Você perceberá como um modelo pode parecer certo… e ainda assim estar comple
 
 ---
 
-## 9.1 Métricas e avaliação rápida (como medir a qualidade)
-- Precisão simples: proporção de respostas factuais corretas em um conjunto de perguntas de referência.
-- Precisão@k (para retrieval): se a resposta correta está entre os top‑k chunks recuperados.
-- Taxa de citação correta: frequência com que as fontes citadas na resposta realmente suportam a afirmação.
-- Avaliação humana/QA: revisão manual de amostras para medir 'faithfulness'.
+## 11. Conclusão e próximos passos
 
-Como montar um teste simples:
-1. Crie 20–50 perguntas com respostas de referência (gold).  
-2. Rode o pipeline RAG e armazene: pergunta, resposta, fontes, chunks usados.  
-3. Calcule métricas básicas (precision, precision@k) e registre num CSV para comparação de configurações.
+Neste capítulo, cobrimos os conceitos fundamentais dos LLMs: o que são, como funcionam, o que são tokens, janelas de contexto e os principais parâmetros de controle. Também introduzimos o LangChain como o framework que nos ajudará a orquestrar esses modelos.
 
----
+No próximo capítulo, vamos explorar os **embeddings**, a tecnologia que transforma texto em vetores e permite a busca por similaridade, um pilar central do RAG.
 
-## 9.2 Experimentos práticos sugeridos
-- Teste A (temperatura): compare resultados com temperature=0.0 vs 0.8 em 5–10 perguntas factuais. Avalie variação e tendência a alucinações.
-- Teste B (retrieval k): experimente k=1,3,5 e compare precision@k e qualidade das citações.
-- Teste C (chunk size): compare chunk_size=500,1000,1500 tokens e observe impacto em recall/precisão.
-
-Registro de resultados (exemplo CSV):
-```
-question,config,temp,k,chunk_size,answer,precision,precision@k,sources
-"O que é paralelismo?","default",0.0,3,1000,"...",1,1,"manual.txt#p12"
-```
 
 ---
 
